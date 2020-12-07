@@ -1,0 +1,9 @@
+coverage
+pylint
+pylint-flask
+pylint-flask-sqlalchemy
+pylint-plugin-utils
+pylint-sqlalchemy
+pytest-cov
+sphinx
+sphinx-rtd-theme

@@ -1,0 +1,12 @@
+flask_restx
+pandas
+Flask
+marshmallow
+numpy
+Flask_SQLAlchemy
+flask_marshmallow
+pytest
+SQLAlchemy
+marshmallow_sqlalchemy
+Flask_Cors
+beautifulsoup4
