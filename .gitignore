@@ -127,3 +127,20 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Eclipse
+
+/.project
+/.pydevproject
+
+# PyCharm
+
+.idea/
+
+# PyTest
+
+.pytest_cache/
+
+# Project
+
+*/tconfig*.sqlite
