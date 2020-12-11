@@ -1,5 +1,3 @@
-# import logging
-
 from flask import Flask
 from flask_cors import CORS
 
@@ -17,8 +15,6 @@ from tconfig.api.resources.parameter_exclude_list import ParameterExclusionListR
 from tconfig.api.resources.parameter_exclude import ParameterExclusionResource
 from tconfig.api.resources.parmset import ParameterSetResource
 from tconfig.api.resources.generate import GenerateResource
-
-# logging.getLogger('flask_cors').level = logging.DEBUG
 
 API_PREFIX = "/tconfig/api/v1"
 

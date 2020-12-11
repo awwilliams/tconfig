@@ -302,18 +302,6 @@ def test_insert(parmset_abcd, parm_a, parm_b, parm_c, parm_d, parm_e):
     assert parmset_abcd.parameters == [parm_a, parm_b, parm_c, parm_e, parm_d]
 
 
-# @pytest.mark.usefixtures("orm")
-# @pytest.mark.skip("Can't insert at end with SQLAlchemy?")
-# def test_insert_at_end(parmset_abcde, parm_a, parm_b, parm_c, parm_d, parm_e):
-#     assert len(parmset_abcde) == 4
-#
-#     parmset_abcde.insert(5, parm_e)
-#
-#     assert len(parmset_abcde) == 5
-#
-#     assert parmset_abcde.parameters == [parm_a, parm_b, parm_c, parm_d, parm_e]
-
-
 @pytest.mark.usefixtures("orm")
 def test_remove(parmset_abcde, parm_a, parm_b, parm_c, parm_d, parm_e):
     parmset_abcde.remove(parm_d)
