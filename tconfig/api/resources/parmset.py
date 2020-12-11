@@ -34,35 +34,8 @@ class ParameterSetResource(Resource):
             setattr(parameter_set, key, new_value)
         orm_utils.perform_orm_commit_or_500(parameter_set, operation="update")
         parameter_set_info = PARAMETER_SET_SCHEMA.dump(parameter_set)
-        # psuid = parameter_info['parameter_set']
-        # response_content = {
-        #     'message': 'parameter updated',
-        #     "parameter": parameter_info,
-        #     "parameter_url": url_for('.parameter', uid=uid),
-        #     "parameter_set_url": url_for('.parameter_set', uid=psuid),
-        # }
-        # return response_content
-        #
-        # parameter_set = orm_utils.get_or_404_parameter_set(1)
-        # patch_data = request.get_json()  # @UndefinedVariable
-        # if "name" not in patch_data:
-        #     attributes = list(patch_data.keys())
-        #     attribute_str = str(attributes).strip()
-        #     abort(
-        #         400, f"data must include 'name' attribute, but it was not found in '{attribute_str}'")
-        # new_name = patch_data['name']
-        # if not isinstance(new_name, str):
-        #     abort(400, f"value of 'name' attribute '{new_name}' is not a string")
-        # if not not new_name:
-        #     abort(400, "value of 'name' attribute must be non-empty")
-        # old_name = parameter_set.name
-        # parameter_set.name = new_name
-        # orm_utils.perform_orm_commit_or_500(parameter_set)
         response_content = {
             'message': 'parameter set updated',
-            # 'status': 'success',
-            # 'old_name': old_name,
-            # 'name': parameter_set.name,
             "parameter_set": parameter_set_info,
             "parameter_set_url": url_for('.parameter_set'),
             "parameter_list_url": url_for('.parameter_list'),

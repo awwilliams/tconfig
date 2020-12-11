@@ -1,6 +1,5 @@
 from marshmallow import fields, post_load, validates_schema, ValidationError
 from flask_marshmallow import Schema
-from tconfig.api.schemas.parmset import ParameterSetSchema
 from tconfig.api.schemas.configset import DataframeConfigsField
 from tconfig.core.data import GenerationRequest, ConfigurationSet
 from tconfig.core.data.genrequest import GENERATORS
@@ -8,7 +7,7 @@ from tconfig.core.data.genrequest import GENERATORS
 
 # noinspection PyUnusedLocal
 class GeneratorRequestSchema(Schema):
-    parameter_set = fields.Nested(ParameterSetSchema)
+    parameter_set = fields.Nested('ParameterSetSchema')
     algorithm_name = fields.String()
     coverage_degree = fields.Integer()
     existing_configurations = DataframeConfigsField()

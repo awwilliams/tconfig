@@ -8,9 +8,6 @@ from tconfig.orm.parmset import ParameterSetDao
 
 
 def exception_500(exception):
-    # message = str(exception)
-    # if isinstance(exception, SQLAlchemyError):
-    #     message = "Database error"
     message = str(exception)
     abort_args = {
         "error": "internal server error",

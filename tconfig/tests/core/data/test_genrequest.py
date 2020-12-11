@@ -191,7 +191,6 @@ def test_create_recursive_genrequest(parm_set):
     assert gen.num_parms == 4
     assert gen.num_values_per_parm == [3, 3, 3, 3]
     assert gen.existing_configs is None
-    # assert np.array_equal(gen.existing_configs, np.ndarray((0, 4), dtype=DEFAULT_NDARRAY_TYPE))
 
 
 def test_create_recursive_genrequest_degree_too_high_algorithm(parm_set):
@@ -225,7 +224,6 @@ def test_create_ipo_2_genrequest(parm_set):
     assert gen.num_parms == 4
     assert gen.num_values_per_parm == [3, 3, 3, 3]
     assert gen.existing_configs is None
-    # assert np.array_equal(gen.existing_configs, np.ndarray((0, 4), dtype=DEFAULT_NDARRAY_TYPE))
 
 
 def test_create_ipo_3_genrequest(parm_set):
@@ -241,7 +239,6 @@ def test_create_ipo_3_genrequest(parm_set):
     assert gen.num_parms == 4
     assert gen.num_values_per_parm == [3, 3, 3, 3]
     assert gen.existing_configs is None
-    # assert np.array_equal(gen.existing_configs, np.ndarray((0, 4), dtype=DEFAULT_NDARRAY_TYPE))
 
 
 def test_create_ipo_genrequest_degree_too_high(parm_set):
