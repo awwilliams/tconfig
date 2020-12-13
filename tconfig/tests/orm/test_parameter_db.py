@@ -36,12 +36,6 @@ def val_4():
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
-def val_5():
-    return create_test_value("V5")
-
-
-@pytest.mark.usefixtures("orm")
-@pytest.fixture
 def val_new():
     return create_test_value("VNEW")
 
