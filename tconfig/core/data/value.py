@@ -14,7 +14,7 @@ class Value(JsonSerializable):
     """
 
     # noinspection PyUnusedLocal
-    def __init__(self, name: str = "", uid: UidType = None, **kwargs):
+    def __init__(self, name: str = "", uid: UidType = None, **kwargs):  # pylint: disable=unused-argument
         """
         Initialization:  arguments passed through to superclasses/mixins.
         """

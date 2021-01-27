@@ -1,9 +1,8 @@
-
 import pytest
 
-from tconfig.api.schemas.value import ValueSchema
+from tconfig.api.schemas import ValueSchema
 
-from ...orm.orm_utils import create_test_value
+from tconfig.tests.orm import test_utils
 
 
 # pylint: disable=invalid-name, redefined-outer-name
@@ -11,7 +10,7 @@ from ...orm.orm_utils import create_test_value
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def val_a():
-    return create_test_value("A")
+    return test_utils.create_test_value("A")
 
 
 @pytest.mark.usefixtures("orm")

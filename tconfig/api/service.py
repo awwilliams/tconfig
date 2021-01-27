@@ -5,16 +5,9 @@ from tconfig.config import CONFIG
 from tconfig.orm import ORM
 from tconfig.api.views import SERVICE, API
 
-from tconfig.api.resources.populate import PopulateResource
-from tconfig.api.resources.value import ValueResource
-from tconfig.api.resources.value_list import ValueListResource
-from tconfig.api.resources.parameter import ParameterResource
-from tconfig.api.resources.parameter_list import ParameterListResource
-from tconfig.api.resources.parameter_value_list import ParameterValueListResource
-from tconfig.api.resources.parameter_exclude_list import ParameterExclusionListResource
-from tconfig.api.resources.parameter_exclude import ParameterExclusionResource
-from tconfig.api.resources.parmset import ParameterSetResource
-from tconfig.api.resources.generate import GenerateResource
+from tconfig.api.resources import ValueResource, ValueListResource, ParameterResource, \
+    ParameterListResource, ParameterValueListResource, ParameterExclusionResource, \
+    ParameterExclusionListResource, ParameterSetResource, GenerateResource, PopulateResource
 
 API_PREFIX = "/tconfig/api/v1"
 
@@ -33,7 +26,10 @@ def create_app(config_name='development') -> Flask:
     API.add_resource(ValueResource, "/values/<int:uid>", endpoint='value')
     API.add_resource(ParameterListResource, "/parameters/", endpoint='parameter_list')
     API.add_resource(ParameterResource, "/parameters/<int:uid>", endpoint='parameter')
-    API.add_resource(ParameterValueListResource, "/parameters/<int:uid>/values/", endpoint='parameter_value_list')
+    API.add_resource(
+        ParameterValueListResource,
+        "/parameters/<int:uid>/values/",
+        endpoint='parameter_value_list')
     API.add_resource(ParameterExclusionListResource,
                      "/parameters/<int:uid>/exclusions/", endpoint='parameter_exclude_list')
     API.add_resource(ParameterExclusionResource,

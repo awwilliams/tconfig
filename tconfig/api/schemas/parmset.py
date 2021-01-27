@@ -2,18 +2,18 @@ import marshmallow_sqlalchemy as ma_sq
 from flask_marshmallow.fields import fields
 from marshmallow import Schema, ValidationError, validates, validate
 
-from tconfig.api.service import ORM
-from tconfig.api.schemas.parameter import ParameterSchema
+from tconfig.orm import orm_utils, ParameterSetDao
+
+from tconfig.api.schemas import ParameterSchema
 
 
 class ParameterSetSchema(ma_sq.SQLAlchemyAutoSchema):
     class Meta:
-        from tconfig.orm.parmset import ParameterSetDao
         model = ParameterSetDao
         include_relationships = True
         include_fk = True
         load_instance = True
-        sqla_session = ORM.session
+        sqla_session = orm_utils.orm_session()
 
     uid = fields.Integer()
     name = fields.String(allow_none=True)

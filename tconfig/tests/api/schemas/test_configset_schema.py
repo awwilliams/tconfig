@@ -7,113 +7,113 @@ import numpy as np
 from marshmallow import INCLUDE
 import pytest
 
-from tconfig.core.data.configset import ConfigurationSet
+from tconfig.core.data import ConfigurationSet
 
-from ...orm.orm_utils import create_test_value, create_test_parameter, create_test_parameter_set
+from tconfig.tests.orm import test_utils
 
 
-# pylint: disable=invalid-name
+# pylint: disable=invalid-name, redefined-outer-name
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def red():
-    return create_test_value("Red")
+    return test_utils.create_test_value("Red")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def green():
-    return create_test_value("Green")
+    return test_utils.create_test_value("Green")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def blue():
-    return create_test_value("Blue")
+    return test_utils.create_test_value("Blue")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def bird():
-    return create_test_value("Bird")
+    return test_utils.create_test_value("Bird")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def cat():
-    return create_test_value("Cat")
+    return test_utils.create_test_value("Cat")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def dog():
-    return create_test_value("Dog")
+    return test_utils.create_test_value("Dog")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def fast():
-    return create_test_value("Fast")
+    return test_utils.create_test_value("Fast")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def medium():
-    return create_test_value("Medium")
+    return test_utils.create_test_value("Medium")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def slow():
-    return create_test_value("Slow")
+    return test_utils.create_test_value("Slow")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def seventies():
-    return create_test_value("70s")
+    return test_utils.create_test_value("70s")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def eighties():
-    return create_test_value("80s")
+    return test_utils.create_test_value("80s")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def twenties():
-    return create_test_value("20s")
+    return test_utils.create_test_value("20s")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def colour(red, green, blue):
-    return create_test_parameter("Colour", values=[red, green, blue])
+    return test_utils.create_test_parameter("Colour", values=[red, green, blue])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def pet(bird, cat, dog):
-    return create_test_parameter("Pet", values=[bird, cat, dog])
+    return test_utils.create_test_parameter("Pet", values=[bird, cat, dog])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def speed(fast, medium, slow):
-    return create_test_parameter("Speed", values=[fast, medium, slow])
+    return test_utils.create_test_parameter("Speed", values=[fast, medium, slow])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def music(seventies, eighties, twenties):
-    return create_test_parameter("Music", values=[seventies, eighties, twenties])
+    return test_utils.create_test_parameter("Music", values=[seventies, eighties, twenties])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parm_set(colour, pet, speed, music):
-    return create_test_parameter_set(
+    return test_utils.create_test_parameter_set(
         parameters=[colour, pet, speed, music])
 
 

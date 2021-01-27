@@ -1,14 +1,16 @@
 from flask import request, url_for
 from flask_restx import Resource, abort
 
-from tconfig.api.schemas.parameter import ParameterSchema, ParameterExclusionSchema, UpdateParameterSchema
-from tconfig.api.resources import orm_utils
+from tconfig.orm import orm_utils
+from tconfig.api.schemas import ParameterSchema, ParameterExclusionSchema, UpdateParameterSchema
+from tconfig.api.resources import resource_utils
 
 PARAMETER_EXCLUSION_SCHEMA = ParameterExclusionSchema()
 PARAMETER_SCHEMA = ParameterSchema()
 UPDATE_PARAMETER_SCHEMA = UpdateParameterSchema()
 
 
+# noinspection PyMethodMayBeStatic
 class ParameterExclusionListResource(Resource):
     def get(self, uid):
         parameter = orm_utils.get_or_404_parameter_with_uid(uid)
@@ -34,7 +36,7 @@ class ParameterExclusionListResource(Resource):
         for key in patch_data:
             new_value = PARAMETER_SCHEMA.fields[key].deserialize(edit_parameter_info[key])
             setattr(parameter, key, new_value)
-        orm_utils.perform_orm_commit_or_500(parameter, operation="update")
+        resource_utils.perform_orm_commit_or_500(parameter, operation="update")
         parameter_info = PARAMETER_EXCLUSION_SCHEMA.dump(parameter)
         response_content = {
             'message': 'parameter exclusion created',

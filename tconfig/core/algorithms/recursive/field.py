@@ -8,9 +8,9 @@ import itertools
 from copy import copy, deepcopy
 from typing import Iterator
 
-from tconfig.core.algorithms.recursive.intmod import IntMod
-from tconfig.core.algorithms.recursive.polymod import PolyMod
-from tconfig.core.algorithms.recursive.rem_poly import RemainderPoly
+from tconfig.core.algorithms.recursive import IntMod
+from tconfig.core.algorithms.recursive import PolyMod
+from tconfig.core.algorithms.recursive import RemainderPoly
 
 from tconfig.core.algorithms.recursive import utils
 

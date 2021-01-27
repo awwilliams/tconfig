@@ -1,14 +1,17 @@
 from flask import request, url_for
 from flask_restx import Resource, abort
 
+from tconfig.orm import orm_utils
+
 from tconfig.api.schemas import ValueSchema, UpdateValueSchema
 
-from tconfig.api.resources import orm_utils
+from tconfig.api.resources import resource_utils
 
 VALUE_SCHEMA = ValueSchema()
 UPDATE_VALUE_SCHEMA = UpdateValueSchema()
 
 
+# noinspection PyMethodMayBeStatic
 class ValueResource(Resource):
     def get(self, uid):
         value = orm_utils.get_or_404_value_with_uid(uid)
@@ -35,7 +38,7 @@ class ValueResource(Resource):
         for key in patch_data:
             new_value = VALUE_SCHEMA.fields[key].deserialize(edit_value_info[key])
             setattr(value, key, new_value)
-        orm_utils.perform_orm_commit_or_500(value, operation="update")
+        resource_utils.perform_orm_commit_or_500(value, operation="update")
         value_info = VALUE_SCHEMA.dump(value)
         puid = value_info['parameter']
         response_content = {
@@ -50,7 +53,7 @@ class ValueResource(Resource):
         value = orm_utils.get_or_404_value_with_uid(uid)
         deleted_value = VALUE_SCHEMA.dump(value)
         puid = value.parameter.uid
-        orm_utils.perform_orm_commit_or_500(value, "delete")
+        resource_utils.perform_orm_commit_or_500(value, "delete")
         response_content = {
             'message': f'value {uid} deleted',
             'deleted_value': deleted_value,

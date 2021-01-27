@@ -6,8 +6,11 @@ import pandas as pd
 from .jsonserializable import JsonSerializable, UidType
 from .parameter import Parameter
 
+# pylint: disable=unsubscriptable-object
 
 class ParameterSet(JsonSerializable):
+
+    parameter_class = Parameter
 
     def __init__(self, parameters: Optional[List[Parameter]] = None,
                  uid: UidType = None):
@@ -43,14 +46,10 @@ class ParameterSet(JsonSerializable):
         return f"ParameterSet: parameters={self.parameters}"
 
     @classmethod
-    def _parameter_class(cls):
-        return Parameter
-
-    @classmethod
     def create_from_parm_and_value_sizes(
             cls, num_parms: int, num_values: int) -> "ParameterSet":
         return cls([
-            cls._parameter_class().create_with_unnamed_values(str(index), num_values)
+            cls.parameter_class.create_with_unnamed_values(str(index), num_values)
             for index in range(1, num_parms + 1)
         ])
 
@@ -58,7 +57,7 @@ class ParameterSet(JsonSerializable):
     def create_from_value_sizes(
             cls, value_size_list: List[int]) -> "ParameterSet":
         return cls([
-            cls._parameter_class().create_with_unnamed_values(str(index + 1), value_size)
+            cls.parameter_class.create_with_unnamed_values(str(index + 1), value_size)
             for index, value_size in enumerate(value_size_list)
         ])
 
@@ -105,7 +104,7 @@ class ParameterSet(JsonSerializable):
 
     @classmethod
     def from_dict(cls, cls_dict):
-        parameters = [cls._parameter_class().from_dict(p_dict)
+        parameters = [cls.parameter_class.from_dict(p_dict)
                       for p_dict in cls_dict["parameters"]]
         uid = cls_dict["uid"]
         return cls(parameters, uid=uid)

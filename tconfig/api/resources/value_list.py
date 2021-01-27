@@ -1,14 +1,17 @@
 from flask import request, url_for
 from flask_restx import Resource, abort
 
+from tconfig.orm import orm_utils
+
 from tconfig.api.schemas import ValueSchema, UpdateValueSchema
 
-from tconfig.api.resources import orm_utils
+from tconfig.api.resources import resource_utils
 
 VALUE_SCHEMA = ValueSchema()
 UPDATE_VALUE_SCHEMA = UpdateValueSchema()
 
 
+# noinspection PyMethodMayBeStatic
 class ValueListResource(Resource):
     def get(self):
         value_list = orm_utils.get_value_list()
@@ -27,8 +30,8 @@ class ValueListResource(Resource):
             key: UPDATE_VALUE_SCHEMA.fields[key].deserialize(post_data[key])
             for key in post_data
         }
-        new_value = orm_utils.create_new_value(**value_info)
-        orm_utils.perform_orm_commit_or_500(new_value)
+        new_value = orm_utils.create_value(**value_info)
+        resource_utils.perform_orm_commit_or_500(new_value)
         new_id = new_value.uid
         response_content = {
             'message': 'new value created',

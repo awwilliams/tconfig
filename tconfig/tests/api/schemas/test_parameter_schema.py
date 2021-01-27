@@ -1,8 +1,8 @@
 import pytest
 
-from tconfig.api.schemas.parameter import ParameterSchema
+from tconfig.api.schemas import ParameterSchema
 
-from ...orm.orm_utils import create_test_value, create_test_parameter
+from tconfig.tests.orm import test_utils
 
 
 # pylint: disable=invalid-name, redefined-outer-name
@@ -11,49 +11,49 @@ from ...orm.orm_utils import create_test_value, create_test_parameter
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def val_1():
-    return create_test_value("V1")
+    return test_utils.create_test_value("V1")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def val_2():
-    return create_test_value("V2")
+    return test_utils.create_test_value("V2")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def val_3():
-    return create_test_value("V3")
+    return test_utils.create_test_value("V3")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def val_4():
-    return create_test_value("V4")
+    return test_utils.create_test_value("V4")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def val_5():
-    return create_test_value("V5")
+    return test_utils.create_test_value("V5")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def val_new():
-    return create_test_value("VNEW")
+    return test_utils.create_test_value("VNEW")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def val_extra():
-    return create_test_value("VEXTRA")
+    return test_utils.create_test_value("VEXTRA")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def pz_four_values(val_1, val_2, val_3, val_4):
-    return create_test_parameter("Z", values=[val_1, val_2, val_3, val_4])
+    return test_utils.create_test_parameter("Z", values=[val_1, val_2, val_3, val_4])
 
 
 @pytest.mark.usefixtures("orm")

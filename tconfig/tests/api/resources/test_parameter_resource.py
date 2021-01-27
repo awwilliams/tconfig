@@ -59,7 +59,7 @@ def test_parameter_edit(api_client, api_prefix):
                 {'name': 'Green', 'parameter': 1, 'position': 1, 'uid': 2},
             ],
         },
-        'parameter_set_url': f'{api_prefix}/parameterset/?uid=1',
+        'parameter_set_url': f'{api_prefix}/parameterset/',
         'parameter_url': f'{api_prefix}/parameters/1',
     }
     assert json_dict == expected

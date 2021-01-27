@@ -5,11 +5,15 @@ from marshmallow import post_load
 from flask_marshmallow import Schema
 from flask_marshmallow.fields import fields
 
-from tconfig.core.data.configset import ConfigurationSet
-from tconfig.api.schemas.value import ValueSchema
-from tconfig.api.service import ORM
+from tconfig.orm import orm_utils
+
+
+from tconfig.core.data import ConfigurationSet
+from tconfig.api.schemas import ValueSchema
 
 VALUE_SCHEMA = ValueSchema(only=("name", "uid"))
+
+# pylint: disable=unsubscriptable-object
 
 
 class DataframeConfigsField(fields.Field):
@@ -20,8 +24,11 @@ class DataframeConfigsField(fields.Field):
             return value
         # noinspection PyUnresolvedReferences
         df_dict = value.to_dict(orient="index")
-        return [{parm_name: VALUE_SCHEMA.dump(value) for parm_name, value in df_dict[index].items()} for index in
-                df_dict]
+        return [
+            {parm_name: VALUE_SCHEMA.dump(value)
+             for parm_name, value in df_dict[index].items()}
+            for index in df_dict
+        ]
 
     def _deserialize(
             self,
@@ -34,7 +41,8 @@ class DataframeConfigsField(fields.Field):
         for config in value:
             config_entry = {}
             for parameter_name, value_entry in config.items():
-                value_obj = VALUE_SCHEMA.load(value_entry, session=ORM.session)
+                value_obj = VALUE_SCHEMA.load(value_entry,
+                                              session=orm_utils.orm_session())
                 config_entry[parameter_name] = value_obj
             frame_dict.append(config_entry)
         result = pd.DataFrame(frame_dict)

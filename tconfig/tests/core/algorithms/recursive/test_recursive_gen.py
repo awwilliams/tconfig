@@ -5,9 +5,8 @@ Created on Sep 30, 2017
 """
 
 import numpy as np
-from tconfig.core.data.parmset import ParameterSet
-from tconfig.core.algorithms.generator import DEFAULT_NDARRAY_TYPE
-from tconfig.core.algorithms.recursive.recursive_gen import RecursiveGenerator
+from tconfig.core.data import DEFAULT_NDARRAY_TYPE, ParameterSet
+from tconfig.core.algorithms import RecursiveGenerator
 
 
 # pylint: disable=invalid-name

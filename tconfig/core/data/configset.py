@@ -10,6 +10,7 @@ import numpy as np
 
 from . import ParameterSet, DEFAULT_NDARRAY_TYPE
 
+# pylint: disable=unsubscriptable-object
 
 class ConfigurationSet(object):
 

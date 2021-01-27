@@ -8,11 +8,11 @@ from copy import deepcopy
 from typing import Optional, Set
 import numpy as np
 from tconfig.core.data import ParameterSet, DEFAULT_NDARRAY_TYPE
-from tconfig.core.algorithms.generator import Generator
-from tconfig.core.algorithms.ipo.ie import InteractionElement
+from tconfig.core.algorithms import Generator
+from tconfig.core.algorithms.ipo import InteractionElement
 
 
-# pylint: disable=invalid-name
+# pylint: disable=invalid-name, unsubscriptable-object
 
 
 class IpoGenerator(Generator):

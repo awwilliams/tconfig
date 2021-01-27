@@ -1,40 +1,31 @@
 from flask_restx import abort
 from sqlalchemy.exc import SQLAlchemyError
 
-from tconfig.api.service import ORM
+from tconfig.orm import ORM
 from tconfig.orm.value import ValueDao
 from tconfig.orm.parameter import ParameterDao
 from tconfig.orm.parmset import ParameterSetDao
 
 
-def exception_500(exception):
-    message = str(exception)
-    abort_args = {
-        "error": "internal server error",
-        "message": message}
-    abort(500, **abort_args)
+def orm_session():
+    return ORM.session 
 
-
-def perform_orm_commit_or_500(items, operation="add"):
-    try:
-        if operation == "add":
-            if isinstance(items, list):
-                ORM.session.add_all(items)  # @UndefinedVariable
-            else:
-                ORM.session.add(items)  # @UndefinedVariable
-        elif operation == "delete":
-            if isinstance(items, list):
-                for item in items:
-                    ORM.session.delete(item)  # @UndefinedVariable
-            else:
-                ORM.session.delete(items)  # @UndefinedVariable
-        ORM.session.commit()  # @UndefinedVariable
-    except SQLAlchemyError as orm_err:
-        exception_500(orm_err)
+def orm_commit(items, operation="add"):
+    if operation == "add":
+        if isinstance(items, list):
+            ORM.session.add_all(items)  # @UndefinedVariable
+        else:
+            ORM.session.add(items)  # @UndefinedVariable
+    elif operation == "delete":
+        if isinstance(items, list):
+            for item in items:
+                ORM.session.delete(item)  # @UndefinedVariable
+        else:
+            ORM.session.delete(items)  # @UndefinedVariable
+    ORM.session.commit()  # @UndefinedVariable
 
 
 def get_or_404_parameter_set(uid=1):
-    from tconfig.orm.parmset import ParameterSetDao
     error_message = f"No parameter set with uid '{uid}' was found"
     return ParameterSetDao.query.get_or_404(uid, description=error_message)  # @UndefinedVariable
 
@@ -77,13 +68,13 @@ def get_parameter_list():
     return ParameterDao.query.all()  # @UndefinedVariable
 
 
-def create_new_value(name):
-    return ValueDao.create_new(name)  # @UndefinedVariable
+def create_value(name, uid=None):
+    return ValueDao(name, uid=uid)
 
 
-def create_new_parameter(name, values=None):
-    return ParameterDao.create_new(name, values=values)  # @UndefinedVariable
+def create_parameter(name, values=None, uid=None):
+    return ParameterDao(name, values=values, uid=uid)
 
 
-def create_new_parameter_set(parameters=None):
-    return ParameterSetDao.create_new(parameters)  # @UndefinedVariable
+def create_parameter_set(parameters=None, uid=None):
+    return ParameterSetDao(parameters, uid=uid)

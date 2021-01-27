@@ -2,7 +2,7 @@
 Flask client test cases for the /tconfig/setup route that creates a sample
 parameter set and puts it in the database for use by other API routes.
 """
-from tconfig.orm.parmset import ParameterSetDao
+from tconfig.orm import ParameterSetDao
 
 
 def test_setup_response(client, api_prefix):

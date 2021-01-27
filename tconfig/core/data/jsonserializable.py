@@ -7,6 +7,8 @@ import json
 from uuid import uuid4, UUID
 from typing import Dict, Optional, Union, TypeVar
 
+# pylint: disable=unsubscriptable-object
+
 T = TypeVar('T')
 UidType = Optional[Union[UUID, str, int]]
 
