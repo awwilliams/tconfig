@@ -1,14 +1,18 @@
 from flask import request, url_for
 from flask_restx import Resource, abort
 
-from tconfig.api.resources import orm_utils
+from tconfig.orm import orm_utils
 
 from tconfig.api.schemas import ParameterSetSchema, UpdateParameterSetSchema
+
+from tconfig.api.resources import resource_utils
+
 
 PARAMETER_SET_SCHEMA = ParameterSetSchema()
 UPDATE_PARAMETER_SET_SCHEMA = UpdateParameterSetSchema()
 
 
+# noinspection PyMethodMayBeStatic
 class ParameterSetResource(Resource):
     def get(self):
         parameter_set = orm_utils.get_or_404_parameter_set()
@@ -32,7 +36,7 @@ class ParameterSetResource(Resource):
         for key in patch_data:
             new_value = PARAMETER_SET_SCHEMA.fields[key].deserialize(edit_parameter_set_info[key])
             setattr(parameter_set, key, new_value)
-        orm_utils.perform_orm_commit_or_500(parameter_set, operation="update")
+        resource_utils.perform_orm_commit_or_500(parameter_set, operation="update")
         parameter_set_info = PARAMETER_SET_SCHEMA.dump(parameter_set)
         response_content = {
             'message': 'parameter set updated',
@@ -44,7 +48,7 @@ class ParameterSetResource(Resource):
 
     def delete(self):
         parameter = orm_utils.get_or_404_parameter_with_uid(1)
-        orm_utils.perform_orm_commit_or_500(parameter, "delete")
+        resource_utils.perform_orm_commit_or_500(parameter, "delete")
         response_content = {
             'message': 'parameter set deleted',
         }

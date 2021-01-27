@@ -2,8 +2,8 @@ import marshmallow_sqlalchemy as ma_sq
 from flask_marshmallow.fields import fields
 from marshmallow import validate, validates, Schema, ValidationError, post_load
 
-from tconfig.api.service import ORM
-from tconfig.orm.value import ValueDao
+from tconfig.orm import orm_utils, ValueDao
+
 from .move import MoveSchema
 
 
@@ -12,7 +12,7 @@ class ValueSchema(ma_sq.schema.SQLAlchemySchema):
         model = ValueDao
         include_relationships = True
         load_instance = True
-        sqla_session = ORM.session
+        sqla_session = orm_utils.orm_session()
 
     uid = fields.Integer()
     name = fields.String(required=True, allow_none=False, validate=validate.Length(min=1))

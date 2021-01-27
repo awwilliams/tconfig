@@ -69,7 +69,7 @@ def test_parameter_add(api_client, api_prefix):
     }
     url = f'{api_prefix}/parameters/'
     response = api_client.post(url, json=request_data)
-    # assert response.status_code == 201
+    assert response.status_code == 201
 
     json_dict = response.json
     expected = {
@@ -96,7 +96,7 @@ def test_parameter_add_with_values(api_client, api_prefix):
     }
     url = f'{api_prefix}/parameters/'
     response = api_client.post(url, json=request_data)
-    # assert response.status_code == 201
+    assert response.status_code == 201
 
     json_dict = response.json
     expected = {

@@ -9,10 +9,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from tconfig.orm.parameter import ParameterDao
-from tconfig.orm.parmset import ParameterSetDao
-
-from .orm_utils import create_test_value, create_test_parameter, create_test_parameter_set
+from tconfig.orm import orm_utils, ParameterDao, ParameterSetDao
+from . import test_utils
 
 
 # pylint: disable=invalid-name, redefined-outer-name, too-many-arguments, too-many-locals
@@ -20,139 +18,139 @@ from .orm_utils import create_test_value, create_test_parameter, create_test_par
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def a1():
-    return create_test_value("A1")
+    return test_utils.create_test_value("A1")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def a2():
-    return create_test_value("A2")
+    return test_utils.create_test_value("A2")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def a3():
-    return create_test_value("A3")
+    return test_utils.create_test_value("A3")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def b1():
-    return create_test_value("B1")
+    return test_utils.create_test_value("B1")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def b2():
-    return create_test_value("B2")
+    return test_utils.create_test_value("B2")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def b3():
-    return create_test_value("B3")
+    return test_utils.create_test_value("B3")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def c1():
-    return create_test_value("C1")
+    return test_utils.create_test_value("C1")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def c2():
-    return create_test_value("C2")
+    return test_utils.create_test_value("C2")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def c3():
-    return create_test_value("C3")
+    return test_utils.create_test_value("C3")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def d1():
-    return create_test_value("D1")
+    return test_utils.create_test_value("D1")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def d2():
-    return create_test_value("D2")
+    return test_utils.create_test_value("D2")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def d3():
-    return create_test_value("D3")
+    return test_utils.create_test_value("D3")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def d4():
-    return create_test_value("D4")
+    return test_utils.create_test_value("D4")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def e1():
-    return create_test_value("E1")
+    return test_utils.create_test_value("E1")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def e2():
-    return create_test_value("E2")
+    return test_utils.create_test_value("E2")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parm_a(a1, a2, a3):
-    return create_test_parameter("A", values=[a1, a2, a3])
+    return test_utils.create_test_parameter("A", values=[a1, a2, a3])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parm_b(b1, b2, b3):
-    return create_test_parameter("B", values=[b1, b2, b3])
+    return test_utils.create_test_parameter("B", values=[b1, b2, b3])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parm_c(c1, c2, c3):
-    return create_test_parameter("C", values=[c1, c2, c3])
+    return test_utils.create_test_parameter("C", values=[c1, c2, c3])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parm_d(d1, d2, d3, d4):
-    return create_test_parameter("D", values=[d1, d2, d3, d4])
+    return test_utils.create_test_parameter("D", values=[d1, d2, d3, d4])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parm_e(e1, e2):
-    return create_test_parameter("E", values=[e1, e2])
+    return test_utils.create_test_parameter("E", values=[e1, e2])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parmset_abc(parm_a, parm_b, parm_c):
-    return create_test_parameter_set(parameters=[parm_a, parm_b, parm_c])
+    return test_utils.create_test_parameter_set(parameters=[parm_a, parm_b, parm_c])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parmset_abcd(parm_a, parm_b, parm_c, parm_d):
-    return create_test_parameter_set(parameters=[parm_a, parm_b, parm_c, parm_d])
+    return test_utils.create_test_parameter_set(parameters=[parm_a, parm_b, parm_c, parm_d])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parmset_abcde(parm_a, parm_b, parm_c, parm_d, parm_e):
-    return create_test_parameter_set(parameters=[parm_a, parm_b, parm_c, parm_d, parm_e])
+    return test_utils.create_test_parameter_set(parameters=[parm_a, parm_b, parm_c, parm_d, parm_e])
 
 
 def test_parmset_jsonify():
@@ -385,10 +383,12 @@ def test_to_dataframe(parmset_abcde, a1, a2, a3, b1, b2, b3, c1, c2, c3, d1, d2,
 def test_to_dict(parmset_abcde, parm_a, parm_b, parm_c, parm_d, parm_e):
     parmset_abcde.set_adjacent(parm_a, parm_c, False)
     parmset_abcde.set_adjacent(parm_b, parm_e, False)
+    orm_utils.orm_commit(parmset_abcde, "update")
 
     expected_dict = {
         "uid": 1,
         "parameters": [p.to_dict() for p in [parm_a, parm_b, parm_c, parm_d, parm_e]],
+        "position": None,
     }
 
     assert parmset_abcde.to_dict() == expected_dict
@@ -399,6 +399,7 @@ def test_from_dict(parm_a, parm_b, parm_c, parm_d, parm_e):
     parmset_dict = {
         "uid": 1,
         "parameters": [p.to_dict() for p in [parm_a, parm_b, parm_c, parm_d, parm_e]],
+        "position": None,
     }
 
     ps = ParameterSetDao.from_dict(parmset_dict)

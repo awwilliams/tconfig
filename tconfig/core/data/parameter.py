@@ -10,6 +10,8 @@ from .jsonserializable import JsonSerializable, UidType
 from .value import Value
 
 
+# pylint: disable=unsubscriptable-object
+
 class Parameter(JsonSerializable):
     """
     Class representing a parameter in a test configuration.  A parameter has a
@@ -18,6 +20,8 @@ class Parameter(JsonSerializable):
     Parameter can be serialized to be passed from a web interface to
     server API.
     """
+
+    value_class = Value
 
     def __init__(self, name="", values: Optional[List[Union[str, Value]]] = None,
                  uid: UidType = None):
@@ -35,7 +39,7 @@ class Parameter(JsonSerializable):
             if all(isinstance(a, Value) for a in values):
                 vlist = values
             else:
-                vlist = [self._value_class()(name) for name in values]
+                vlist = [self.value_class(name) for name in values]
         if hasattr(self, "values"):
             self.values.extend(vlist)  # pylint: disable=access-member-before-definition
         else:
@@ -98,7 +102,7 @@ class Parameter(JsonSerializable):
     @classmethod
     def create_with_unnamed_values(
             cls, name: str, num_values: int) -> "Parameter":
-        return cls(name, [cls._value_class()(str(x)) for x in range(1, num_values + 1)])
+        return cls(name, [cls.value_class(str(x)) for x in range(1, num_values + 1)])
 
     def to_dict(self):
         result = super().to_dict()
@@ -109,12 +113,8 @@ class Parameter(JsonSerializable):
         return result
 
     @classmethod
-    def _value_class(cls):
-        return Value
-
-    @classmethod
     def from_dict(cls, cls_dict):
-        values = [cls._value_class().from_dict(v_dict)
+        values = [cls.value_class.from_dict(v_dict)
                   for v_dict in cls_dict["values"]]
         return cls(cls_dict["name"], values=values, uid=cls_dict["uid"])
 

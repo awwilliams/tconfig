@@ -1,14 +1,14 @@
 from flask import request, url_for
 from flask_restx import Resource
 
-from tconfig.api.schemas.genrequest import GeneratorRequestSchema
-from tconfig.api.schemas.configset import ConfigSetSchema
+from tconfig.api.schemas import ConfigSetSchema, GeneratorRequestSchema
 from tconfig.core.data import ConfigurationSet
 
 GENERATE_REQUEST_SCHEMA = GeneratorRequestSchema()
 CONFIGURATIONS_SCHEMA = ConfigSetSchema()
 
 
+# noinspection PyMethodMayBeStatic
 class GenerateResource(Resource):
 
     def post(self):

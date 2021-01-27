@@ -1,7 +1,8 @@
 from flask import Flask
 import pytest
 
-from tconfig.api.service import create_app, ORM
+from tconfig.orm import ORM
+from tconfig.api.service import create_app
 
 API_PREFIX = "/tconfig/api/v1"
 

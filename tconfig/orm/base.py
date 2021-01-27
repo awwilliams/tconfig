@@ -30,36 +30,5 @@ class OrmResource(Model):
 
         return sa.Column(position_type)
 
-    def add(self):
-        ORM.session.add(self)
-        return ORM.session.commit()
-
-    def update(self):
-        return ORM.session.commit()
-
-    def delete(self):
-        ORM.session.delete(self)
-        return ORM.session.commit()
-
-    def to_dict(self):
-        result = super().to_dict()
-        result.update({
-            "position": self.position,
-        })
-        return result
-
-    @classmethod
-    def from_dict(cls, cls_dict):
-        result = super().from_dict(cls_dict)
-        result.position = cls_dict["position"]
-        return result
-
-    # noinspection PyArgumentList
-    @classmethod
-    def create_new(cls, *args, **kwargs):
-        new_item = cls(*args, **kwargs)
-        new_item.add()
-        return new_item
-
 
 ORM = SQLAlchemy(model_class=OrmResource)

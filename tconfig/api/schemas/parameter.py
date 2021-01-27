@@ -2,9 +2,9 @@ import marshmallow_sqlalchemy as ma_sq
 from flask_marshmallow.fields import fields
 from marshmallow import Schema, ValidationError, validates, validate, post_load
 
-from tconfig.api.service import ORM
-from tconfig.orm.parameter import ParameterDao
-from tconfig.api.schemas.value import ValueSchema
+from tconfig.orm import orm_utils, ParameterDao
+
+from tconfig.api.schemas import ValueSchema
 from .move import MoveSchema
 
 
@@ -14,7 +14,7 @@ class ParameterSchema(ma_sq.SQLAlchemySchema):
         include_relationships = True
         include_fk = True
         load_instance = True
-        sqla_session = ORM.session
+        sqla_session = orm_utils.orm_session()
 
     uid = fields.Integer()
     name = fields.String(required=True, allow_none=False, validate=validate.Length(min=1))
@@ -83,7 +83,7 @@ class ParameterExclusionSchema(ma_sq.SQLAlchemySchema):
         include_relationships = True
         include_fk = True
         load_instance = True
-        sqla_session = ORM.session
+        sqla_session = orm_utils.orm_session()
 
     uid = fields.Integer()
     name = fields.String(required=True)

@@ -4,22 +4,25 @@ Created on Jul 4, 2020
 @author: Alan Williams
 """
 
-from sqlalchemy.ext.orderinglist import ordering_list
-
-from tconfig.api.service import ORM
 from tconfig.core.data import ParameterSet
+from tconfig.orm import ORM
 
 
 class ParameterSetDao(ParameterSet, ORM.Model):
     __tablename__ = 'parameter_sets'
 
     name = ORM.Column(ORM.String(64))
-    parameters = ORM.relationship(
-        'ParameterDao', backref='parameter_set', order_by="ParameterDao.position",
-        collection_class=ordering_list('position')
-    )
+
+    def to_dict(self) -> dict:
+        result = super().to_dict()
+        result.update({
+            "position": self.position,
+        })
+        return result
 
     @classmethod
-    def _parameter_class(cls):
-        from tconfig.orm.parameter import ParameterDao
-        return ParameterDao
+    def from_dict(cls, cls_dict) -> 'ParameterSetDao':
+        result = super().from_dict(cls_dict)
+        result.position = cls_dict["position"]
+        return result
+

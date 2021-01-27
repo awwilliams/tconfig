@@ -6,9 +6,10 @@ Created on Sep 9, 2017
 
 import pytest
 
-from tconfig.api.schemas.parameter import ParameterSchema
+from tconfig.api.schemas import ParameterSchema, ParameterSetSchema
 
-from ...orm.orm_utils import create_test_value, create_test_parameter, create_test_parameter_set
+from tconfig.orm import orm_utils
+from tconfig.tests.orm import test_utils
 
 
 # pylint: disable=invalid-name, redefined-outer-name
@@ -16,135 +17,135 @@ from ...orm.orm_utils import create_test_value, create_test_parameter, create_te
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def a1():
-    return create_test_value("A1")
+    return test_utils.create_test_value("A1")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def a2():
-    return create_test_value("A2")
+    return test_utils.create_test_value("A2")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def a3():
-    return create_test_value("A3")
+    return test_utils.create_test_value("A3")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def b1():
-    return create_test_value("B1")
+    return test_utils.create_test_value("B1")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def b2():
-    return create_test_value("B2")
+    return test_utils.create_test_value("B2")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def b3():
-    return create_test_value("B3")
+    return test_utils.create_test_value("B3")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def c1():
-    return create_test_value("C1")
+    return test_utils.create_test_value("C1")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def c2():
-    return create_test_value("C2")
+    return test_utils.create_test_value("C2")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def c3():
-    return create_test_value("C3")
+    return test_utils.create_test_value("C3")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def d1():
-    return create_test_value("D1")
+    return test_utils.create_test_value("D1")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def d2():
-    return create_test_value("D2")
+    return test_utils.create_test_value("D2")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def d3():
-    return create_test_value("D3")
+    return test_utils.create_test_value("D3")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def d4():
-    return create_test_value("D4")
+    return test_utils.create_test_value("D4")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def e1():
-    return create_test_value("E1")
+    return test_utils.create_test_value("E1")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def e2():
-    return create_test_value("E2")
+    return test_utils.create_test_value("E2")
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parm_a(a1, a2, a3):
-    return create_test_parameter("A", values=[a1, a2, a3])
+    return test_utils.create_test_parameter("A", values=[a1, a2, a3])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parm_b(b1, b2, b3):
-    return create_test_parameter("B", values=[b1, b2, b3])
+    return test_utils.create_test_parameter("B", values=[b1, b2, b3])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parm_c(c1, c2, c3):
-    return create_test_parameter("C", values=[c1, c2, c3])
+    return test_utils.create_test_parameter("C", values=[c1, c2, c3])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parm_d(d1, d2, d3, d4):
-    return create_test_parameter("D", values=[d1, d2, d3, d4])
+    return test_utils.create_test_parameter("D", values=[d1, d2, d3, d4])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parm_e(e1, e2):
-    return create_test_parameter("E", values=[e1, e2])
+    return test_utils.create_test_parameter("E", values=[e1, e2])
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parmset_abcde(parm_a, parm_b, parm_c, parm_d, parm_e):
-    return create_test_parameter_set(parameters=[parm_a, parm_b, parm_c, parm_d, parm_e])
+    return test_utils.create_test_parameter_set(
+        parameters=[parm_a, parm_b, parm_c, parm_d, parm_e])
 
 
 @pytest.mark.usefixtures("orm")
 def test_schema_serialize(parmset_abcde, parm_a, parm_b, parm_c, parm_e):
-    from tconfig.api.schemas.parmset import ParameterSetSchema
     parmset_abcde.set_adjacent(parm_a, parm_c, False)
     parmset_abcde.set_adjacent(parm_b, parm_e, False)
-    parmset_abcde.update()
+    orm_utils.orm_commit(parmset_abcde, "update")
 
     parmset_schema = ParameterSetSchema()
     schema_dict = parmset_schema.dump(parmset_abcde)
@@ -225,10 +226,9 @@ def test_schema_serialize(parmset_abcde, parm_a, parm_b, parm_c, parm_e):
 
 
 def test_schema_deserialize(orm, parmset_abcde, parm_a, parm_b, parm_c, parm_e):
-    from tconfig.api.schemas.parmset import ParameterSetSchema
     parmset_abcde.set_adjacent(parm_a, parm_c, False)
     parmset_abcde.set_adjacent(parm_b, parm_e, False)
-    parmset_abcde.update()
+    orm_utils.orm_commit(parmset_abcde, "update")
 
     parmset_schema = ParameterSetSchema()
     parmset_dict = {
@@ -383,11 +383,10 @@ def test_schema_deserialize(orm, parmset_abcde, parm_a, parm_b, parm_c, parm_e):
     assert ps_loaded is parmset_abcde
 
 
-def test_schema_round_trip(orm, parmset_abcde, parm_a, parm_b, parm_c, parm_d, parm_e):
-    from tconfig.api.schemas.parmset import ParameterSetSchema
+def test_schema_round_trip(orm, parmset_abcde, parm_a, parm_b, parm_c, parm_e):
     parmset_abcde.set_adjacent(parm_a, parm_c, False)
     parmset_abcde.set_adjacent(parm_b, parm_e, False)
-    parmset_abcde.update()
+    orm_utils.orm_commit(parmset_abcde, "update")
 
     parmset_schema = ParameterSetSchema()
     parm_schema = ParameterSchema()

@@ -1,9 +1,10 @@
 from flask import request, url_for
 from flask_restx import Resource, abort
 
-from tconfig.api.schemas.parameter import ParameterSchema
-from tconfig.api.schemas.value import ValueSchema, UpdateValueSchema, MoveValueSchema
-from tconfig.api.resources import orm_utils
+from tconfig.orm import orm_utils
+
+from tconfig.api.schemas import ParameterSchema, ValueSchema, UpdateValueSchema, MoveValueSchema
+from tconfig.api.resources import resource_utils
 
 PARAMETER_SCHEMA = ParameterSchema()
 VALUE_SCHEMA = ValueSchema()
@@ -11,6 +12,7 @@ UPDATE_VALUE_SCHEMA = UpdateValueSchema()
 MOVE_VALUE_SCHEMA = MoveValueSchema()
 
 
+# noinspection PyMethodMayBeStatic
 class ParameterValueListResource(Resource):
     def get(self, uid):
         parameter = orm_utils.get_or_404_parameter_with_uid(uid)
@@ -32,9 +34,9 @@ class ParameterValueListResource(Resource):
             key: UPDATE_VALUE_SCHEMA.fields[key].deserialize(post_data[key])
             for key in post_data
         }
-        new_value = orm_utils.create_new_value(**value_info)
+        new_value = orm_utils.create_value(**value_info)
         parameter.append(new_value)
-        orm_utils.perform_orm_commit_or_500(parameter, operation="update")
+        resource_utils.perform_orm_commit_or_500(parameter, operation="update")
         new_id = new_value.uid
         response_content = {
             'message': 'new value created',
@@ -56,7 +58,7 @@ class ParameterValueListResource(Resource):
         new_index = put_data['newIndex']
         moved_value = parameter.pop(old_index)
         parameter.insert(new_index, moved_value)
-        orm_utils.perform_orm_commit_or_500(parameter, operation="update")
+        resource_utils.perform_orm_commit_or_500(parameter, operation="update")
         response_content = {
             'message': 'value moved within list',
             'old_index': old_index,

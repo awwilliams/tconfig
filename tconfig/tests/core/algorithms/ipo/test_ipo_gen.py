@@ -6,10 +6,10 @@ Created on Oct 7, 2017
 
 import numpy as np
 
-from tconfig.core.data.parmset import ParameterSet
-from tconfig.core.algorithms.generator import DEFAULT_NDARRAY_TYPE
-from tconfig.core.algorithms.ipo.ie import InteractionElement
-from tconfig.core.algorithms.ipo.ipo_gen import IpoGenerator
+from tconfig.core.data import ParameterSet
+from tconfig.core.data import DEFAULT_NDARRAY_TYPE
+from tconfig.core.algorithms.ipo import InteractionElement
+from tconfig.core.algorithms.ipo import IpoGenerator
 
 
 # pylint: disable=invalid-name, missing-function-docstring
@@ -46,8 +46,6 @@ def test_is_zero_2():
     cs = np.array([[1, 2, 3, 4]], dtype=DEFAULT_NDARRAY_TYPE)
 
     pkw = InteractionElement({1: 2, 3: 4})
-    #     pk = [1, 3]
-    #     w = [2, 4]
 
     ps = ParameterSet.create_from_parm_and_value_sizes(13, 4)
     g = IpoGenerator(ps, 2)
