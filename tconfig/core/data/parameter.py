@@ -9,6 +9,7 @@ import pandas as pd
 from .jsonserializable import JsonSerializable, UidType
 from .value import Value
 
+
 # pylint: disable=unsubscriptable-object
 
 class Parameter(JsonSerializable):
@@ -138,4 +139,3 @@ class Parameter(JsonSerializable):
     def interacts_with(self, other_parm):
         return not self.is_excluding(
             other_parm) and not self.is_excluded_by(other_parm)
-

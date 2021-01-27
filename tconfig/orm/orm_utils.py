@@ -8,7 +8,8 @@ from tconfig.orm.parmset import ParameterSetDao
 
 
 def orm_session():
-    return ORM.session 
+    return ORM.session
+
 
 def orm_commit(items, operation="add"):
     if operation == "add":

@@ -5,6 +5,7 @@ pylint-flask
 pylint-flask-sqlalchemy
 pylint-plugin-utils
 pylint-sqlalchemy
+pylint-werkzeug
 pytest-cov
 sphinx
 sphinx-rtd-theme

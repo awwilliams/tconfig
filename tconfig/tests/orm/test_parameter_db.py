@@ -106,7 +106,7 @@ def test_create_with_values():
     v2 = ValueDao("2", uid=p.values[1].uid)
     v3 = ValueDao("3", uid=p.values[2].uid)
     v4 = ValueDao("4", uid=p.values[3].uid)
-    
+
     # No commit here or values would have different UIDs.
 
     assert p.values == [v1, v2, v3, v4]
@@ -279,6 +279,7 @@ def test_index_start_stop(pz_four_values, val_4):
     with pytest.raises(ValueError, match=error_message):
         pz_four_values.index(val_4, 0, 2)
 
+
 @pytest.mark.usefixtures("orm")
 def test_to_dict(val_1, val_2, val_3, val_4):
     value_list = [val_1, val_2, val_3, val_4]
@@ -294,8 +295,8 @@ def test_to_dict(val_1, val_2, val_3, val_4):
         "values": [v.to_dict() for v in [val_1, val_2, val_3, val_4]],
     }
     assert p.to_dict() == expected
- 
- 
+
+
 def test_from_dict(orm, val_1, val_2, val_3, val_4):
     p_dict = {
         "name": "Z",
@@ -309,14 +310,14 @@ def test_from_dict(orm, val_1, val_2, val_3, val_4):
     assert p.uid == 1
     assert p.position == 4  # pylint: disable=no-member
     assert p.values == [val_1, val_2, val_3, val_4]
- 
- 
+
+
 @pytest.mark.usefixtures("orm")
 def test_dict_round_trip(val_1, val_2, val_3, val_4):
     p_orig = ParameterDao("Z", [val_1, val_2, val_3, val_4], uid=1)
     orm_utils.orm_commit(p_orig, "add")
- 
+
     parameter_dict = p_orig.to_dict()
     p_new = ParameterDao.from_dict(parameter_dict)
- 
+
     assert p_new == p_orig

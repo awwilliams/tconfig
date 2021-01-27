@@ -8,7 +8,7 @@ from tconfig.api.schemas import ParameterSetSchema
 PARAMETER_SET_SCHEMA = ParameterSetSchema()
 
 
-# noinspection PyPep8Naming
+# noinspection PyPep8Naming,PyMethodMayBeStatic
 class PopulateResource(Resource):
     def get(self):
         ORM.drop_all()

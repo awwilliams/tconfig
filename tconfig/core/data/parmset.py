@@ -6,10 +6,10 @@ import pandas as pd
 from .jsonserializable import JsonSerializable, UidType
 from .parameter import Parameter
 
+
 # pylint: disable=unsubscriptable-object
 
 class ParameterSet(JsonSerializable):
-
     parameter_class = Parameter
 
     def __init__(self, parameters: Optional[List[Parameter]] = None,

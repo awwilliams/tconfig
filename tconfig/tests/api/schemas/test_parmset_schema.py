@@ -54,8 +54,6 @@ def b3():
 @pytest.fixture
 def c1():
     return test_utils.create_test_value("C1")
-    orm_utils.orm_commit(fixture, "add")
-    return fixture
 
 
 @pytest.mark.usefixtures("orm")
