@@ -12,6 +12,7 @@ from .value import Value
 
 # pylint: disable=unsubscriptable-object
 
+
 class Parameter(JsonSerializable):
     """
     Class representing a parameter in a test configuration.  A parameter has a
@@ -23,8 +24,12 @@ class Parameter(JsonSerializable):
 
     value_class = Value
 
-    def __init__(self, name="", values: Optional[List[Union[str, Value]]] = None,
-                 uid: UidType = None):
+    def __init__(
+        self,
+        name="",
+        values: Optional[List[Union[str, Value]]] = None,
+        uid: UidType = None,
+    ):
         """
         Initialization:  provide name and optional list of parameter
         values.  If provided, collection can be a list or dictionary.  Contents
@@ -54,11 +59,13 @@ class Parameter(JsonSerializable):
         return f'Parameter(name="{self.name}", uid="{self.uid}", values={self.values})'
 
     def __eq__(self, other: "Parameter") -> bool:
-        return all(getattr(self, attr) == getattr(other, attr) for attr in ["uid", "name"]) \
-               and self.values == other.values
+        return (
+            all(getattr(self, attr) == getattr(other, attr) for attr in ["uid", "name"])
+            and self.values == other.values
+        )
 
     def __hash__(self) -> int:
-        return hash((self.name, getattr(self, 'uid'), self.values))
+        return hash((self.name, getattr(self, "uid"), self.values))
 
     def __iter__(self) -> Iterator[Value]:
         return iter(self.values)
@@ -100,22 +107,17 @@ class Parameter(JsonSerializable):
         return self.values.index(*args)
 
     @classmethod
-    def create_with_unnamed_values(
-            cls, name: str, num_values: int) -> "Parameter":
+    def create_with_unnamed_values(cls, name: str, num_values: int) -> "Parameter":
         return cls(name, [cls.value_class(str(x)) for x in range(1, num_values + 1)])
 
     def to_dict(self):
         result = super().to_dict()
-        result.update({
-            "name": self.name,
-            "values": [v.to_dict() for v in self.values]
-        })
+        result.update({"name": self.name, "values": [v.to_dict() for v in self.values]})
         return result
 
     @classmethod
     def from_dict(cls, cls_dict):
-        values = [cls.value_class.from_dict(v_dict)
-                  for v_dict in cls_dict["values"]]
+        values = [cls.value_class.from_dict(v_dict) for v_dict in cls_dict["values"]]
         return cls(cls_dict["name"], values=values, uid=cls_dict["uid"])
 
     def exclude_interaction_with(self, other_parm):
@@ -137,5 +139,4 @@ class Parameter(JsonSerializable):
         return other_parm in self.excluded_by
 
     def interacts_with(self, other_parm):
-        return not self.is_excluding(
-            other_parm) and not self.is_excluded_by(other_parm)
+        return not self.is_excluding(other_parm) and not self.is_excluded_by(other_parm)

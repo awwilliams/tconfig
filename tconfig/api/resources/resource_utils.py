@@ -6,9 +6,7 @@ from tconfig.orm import orm_utils
 
 def exception_500(exception):
     message = str(exception)
-    abort_args = {
-        "error": "internal server error",
-        "message": message}
+    abort_args = {"error": "internal server error", "message": message}
     abort(500, **abort_args)
 
 

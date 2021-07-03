@@ -16,21 +16,29 @@ from tconfig.core.algorithms.ipo import InteractionElement
 
 
 class IpoGenerator(Generator):
+    def __init__(
+        self,
+        parameter_set: ParameterSet,
+        coverage_degree: int = 2,
+        *,
+        dtype=DEFAULT_NDARRAY_TYPE,
+        existing_configs: Optional[np.ndarray] = None
+    ):
+        super().__init__(
+            parameter_set,
+            coverage_degree,
+            dtype=dtype,
+            existing_configs=existing_configs,
+        )
+        self.test_set = None if existing_configs is None else deepcopy(existing_configs)
 
-    def __init__(self, parameter_set: ParameterSet, coverage_degree: int = 2, *,
-                 dtype=DEFAULT_NDARRAY_TYPE, existing_configs: Optional[np.ndarray] = None):
-        super().__init__(parameter_set, coverage_degree,
-                         dtype=dtype, existing_configs=existing_configs)
-        self.test_set = None if existing_configs is None else deepcopy(
-            existing_configs)
-
-    def add_new_test(self, t_prime: np.ndarray,
-                     pkw: InteractionElement,
-                     piu: InteractionElement) -> np.ndarray:
+    def add_new_test(
+        self, t_prime: np.ndarray, pkw: InteractionElement, piu: InteractionElement
+    ) -> np.ndarray:
         """
         Create a new test
         """
-        config_width = (1 + max(max(pkw.keys()), max(piu.keys())))
+        config_width = 1 + max(max(pkw.keys()), max(piu.keys()))
         new_config = np.zeros((1, config_width), dtype=self.ndarray_type)
         for index in pkw:
             new_config[0, index] = pkw[index]
@@ -48,9 +56,12 @@ class IpoGenerator(Generator):
         """
         return all(test[index] in [0, value] for index, value in pkw.items())
 
-    def contains_dash_in_t(self, t_prime: Optional[np.ndarray],
-                           pkw: InteractionElement,
-                           piu: InteractionElement) -> int:
+    def contains_dash_in_t(
+        self,
+        t_prime: Optional[np.ndarray],
+        pkw: InteractionElement,
+        piu: InteractionElement,
+    ) -> int:
         """
         Looks for 0 values in a test set that can be filled in.
         """
@@ -78,9 +89,8 @@ class IpoGenerator(Generator):
 
         initial_num_columns = strength
         self.test_set = np.empty(
-            (initial_num_rows,
-             initial_num_columns),
-            dtype=self.ndarray_type)
+            (initial_num_rows, initial_num_columns), dtype=self.ndarray_type
+        )
 
         for test_num in range(0, initial_num_rows):
             for col in range(0, strength):
@@ -93,10 +103,13 @@ class IpoGenerator(Generator):
                     incr_col -= 1
                     value[incr_col] += 1
 
-    def get_hori_recur(self,
-                       new_parameter_index: int,
-                       cover: int, pi: Set[InteractionElement],
-                       test_value_list: InteractionElement) -> Set[InteractionElement]:
+    def get_hori_recur(
+        self,
+        new_parameter_index: int,
+        cover: int,
+        pi: Set[InteractionElement],
+        test_value_list: InteractionElement,
+    ) -> Set[InteractionElement]:
         for i in range(0, new_parameter_index):
             if i in test_value_list:
                 continue
@@ -109,11 +122,15 @@ class IpoGenerator(Generator):
                     self.get_hori_recur(new_parameter_index, cover - 1, pi, ie)
         return pi
 
-    def get_test_value_recur(self, orig_set: Set[InteractionElement],
-                             config_num: int,
-                             parm_num: int,
-                             cover: int, result,
-                             ie: InteractionElement):
+    def get_test_value_recur(
+        self,
+        orig_set: Set[InteractionElement],
+        config_num: int,
+        parm_num: int,
+        cover: int,
+        result,
+        ie: InteractionElement,
+    ):
 
         for i in range(0, parm_num):
             same_flag = i in ie.keys()
@@ -126,46 +143,51 @@ class IpoGenerator(Generator):
                 if new_ie in orig_set and new_ie not in result:
                     result.add(new_ie)
             else:
-                self.get_test_value_recur(orig_set, config_num, parm_num, cover - 1,
-                                          result, new_ie)
+                self.get_test_value_recur(
+                    orig_set, config_num, parm_num, cover - 1, result, new_ie
+                )
 
-    def pairs_covered_in(self, orig_set: Set[InteractionElement],
-                         config_num: int,
-                         parm_num: int,
-                         new_value: int) -> Set[InteractionElement]:
+    def pairs_covered_in(
+        self,
+        orig_set: Set[InteractionElement],
+        config_num: int,
+        parm_num: int,
+        new_value: int,
+    ) -> Set[InteractionElement]:
         result: Set[InteractionElement] = set()
         for parm_index in range(0, parm_num):
             ie = InteractionElement(
-                {parm_num: new_value, parm_index: self.test_set[config_num][parm_index]})
+                {parm_num: new_value, parm_index: self.test_set[config_num][parm_index]}
+            )
             if self.coverage_degree > 2:
                 self.get_test_value_recur(
-                    orig_set, config_num, parm_num, self.coverage_degree - 2, result, ie)
+                    orig_set, config_num, parm_num, self.coverage_degree - 2, result, ie
+                )
             else:
                 if ie in orig_set:
                     result.add(ie)
         return result
 
-    def do_horizontal_growth(
-            self, new_parameter_index: int) -> Set[InteractionElement]:
+    def do_horizontal_growth(self, new_parameter_index: int) -> Set[InteractionElement]:
         """
         Add one more parameter, and determine which values to fill in
         to the existing configuration set that cover the most interaction
         elements for the new parameter.
         """
-        self.test_set = np.insert(
-            self.test_set, self.test_set.shape[1], 0, axis=1)
+        self.test_set = np.insert(self.test_set, self.test_set.shape[1], 0, axis=1)
 
         pi = set()
         num_new_values = self.num_values_per_parm[new_parameter_index]
         for nv_index in range(1, num_new_values + 1):
             for parm_index in range(0, new_parameter_index):
-                for value_index in range(
-                        1, self.num_values_per_parm[parm_index] + 1):
+                for value_index in range(1, self.num_values_per_parm[parm_index] + 1):
                     ie = InteractionElement(
-                        {new_parameter_index: nv_index, parm_index: value_index})
+                        {new_parameter_index: nv_index, parm_index: value_index}
+                    )
                     if self.coverage_degree > 2:
                         pi = self.get_hori_recur(
-                            new_parameter_index, self.coverage_degree - 2, pi, ie)
+                            new_parameter_index, self.coverage_degree - 2, pi, ie
+                        )
                     else:
                         pi.add(ie)
 
@@ -184,7 +206,8 @@ class IpoGenerator(Generator):
             v_prime = 0
             for nv_index in range(1, num_new_values + 1):
                 pi_double_prime = self.pairs_covered_in(
-                    pi, j, new_parameter_index, nv_index)
+                    pi, j, new_parameter_index, nv_index
+                )
                 if len(pi_double_prime) > len(pi_prime):
                     pi_prime = pi_double_prime
                     v_prime = nv_index
@@ -194,9 +217,9 @@ class IpoGenerator(Generator):
 
         return pi
 
-    def do_vertical_growth(self,
-                           pi: Set[InteractionElement],
-                           new_parameter_index: int) -> np.ndarray:
+    def do_vertical_growth(
+        self, pi: Set[InteractionElement], new_parameter_index: int
+    ) -> np.ndarray:
         """
         Determine a set of additional test configurations that are needed
         to completely cover the set of interaction elements required for
@@ -205,8 +228,7 @@ class IpoGenerator(Generator):
         t_prime: Optional[np.ndarray] = None
 
         for ie in pi:
-            piu = InteractionElement(
-                {new_parameter_index: ie[new_parameter_index]})
+            piu = InteractionElement({new_parameter_index: ie[new_parameter_index]})
             pkw = InteractionElement(ie.data)
             del pkw[new_parameter_index]
 
@@ -214,12 +236,16 @@ class IpoGenerator(Generator):
             if tau >= 0:
                 if tau >= len(self.test_set):
                     for i in pkw:
-                        t_prime[tau - len(self.test_set)][i] = pkw[i]  # pylint: disable=unsubscriptable-object
+                        t_prime[tau - len(self.test_set)][i] = pkw[
+                            i
+                        ]  # pylint: disable=unsubscriptable-object
                 else:
                     for i in pkw:
                         self.test_set[tau][i] = pkw[i]
                     if self.test_set[tau][new_parameter_index] == 0:
-                        self.test_set[tau][new_parameter_index] = piu[new_parameter_index]
+                        self.test_set[tau][new_parameter_index] = piu[
+                            new_parameter_index
+                        ]
             else:
                 t_prime = self.add_new_test(t_prime, pkw, piu)
         return t_prime
@@ -229,16 +255,17 @@ class IpoGenerator(Generator):
         Generate a set of configurations for the ParameterSet and coverage degree.
         """
 
-        if self.test_set is None or len(
-                self.test_set[0]) < self.coverage_degree:
+        if self.test_set is None or len(self.test_set[0]) < self.coverage_degree:
             self.first_parameters()
 
         if self.num_parms > self.coverage_degree:
             for parm_index in range(self.coverage_degree, self.num_parms):
                 missing_interactions = self.do_horizontal_growth(parm_index)
-                new_rows = self.do_vertical_growth(
-                    missing_interactions, parm_index)
+                new_rows = self.do_vertical_growth(missing_interactions, parm_index)
                 if new_rows is not None:
-                    self.test_set = new_rows if self.test_set is None else np.vstack(
-                        [self.test_set, new_rows])
+                    self.test_set = (
+                        new_rows
+                        if self.test_set is None
+                        else np.vstack([self.test_set, new_rows])
+                    )
         return self.test_set

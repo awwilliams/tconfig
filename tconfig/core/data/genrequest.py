@@ -21,9 +21,14 @@ class GenerationRequest(object):
     Instance of a request to generate a covering array for a parameter set.  Intended
     for use from REST API.
     """
-    def __init__(self, parameter_set: ParameterSet, algorithm_name: str = "recursive",
-                 coverage_degree: int = 2,
-                 existing_configurations: Optional[ConfigurationSet] = None):
+
+    def __init__(
+        self,
+        parameter_set: ParameterSet,
+        algorithm_name: str = "recursive",
+        coverage_degree: int = 2,
+        existing_configurations: Optional[ConfigurationSet] = None,
+    ):
         """
         Initalize a generation request.
 
@@ -56,10 +61,12 @@ class GenerationRequest(object):
             raise ValueError(f"Invalid algorithm name '{algorithm_name}'")
         if self.coverage_degree > len(self.parameter_set):
             raise ValueError(
-                f"Coverage degree {coverage_degree} higher than number of parameters {len(self.parameter_set)}")
+                f"Coverage degree {coverage_degree} higher than number of parameters {len(self.parameter_set)}"
+            )
         if self.algorithm_name == "recursive" and self.coverage_degree >= 3:
             raise ValueError(
-                "Coverage degree higher than 2 not yet implemented for recursive algorithm")
+                "Coverage degree higher than 2 not yet implemented for recursive algorithm"
+            )
 
     def construct_generator(self):
         """
@@ -74,7 +81,12 @@ class GenerationRequest(object):
         generator_class = GENERATORS[self.algorithm_name]
         gen_covering_array = None
         if self.existing_configurations:
-            gen_covering_array = self.existing_configurations.to_covering_array(self.parameter_set)
+            gen_covering_array = self.existing_configurations.to_covering_array(
+                self.parameter_set
+            )
         return generator_class(
-            parameter_set=self.parameter_set, coverage_degree=self.coverage_degree,
-            dtype=dtype, existing_configs=gen_covering_array)
+            parameter_set=self.parameter_set,
+            coverage_degree=self.coverage_degree,
+            dtype=dtype,
+            existing_configs=gen_covering_array,
+        )

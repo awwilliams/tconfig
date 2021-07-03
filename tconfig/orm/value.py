@@ -10,9 +10,9 @@ from tconfig.orm import ORM
 
 # noinspection PyTypeChecker
 class ValueDao(Value, ORM.Model):
-    __tablename__ = 'vals'
+    __tablename__ = "vals"
     name = ORM.Column(ORM.String(64), nullable=False)
-    parameter_id = ORM.Column(ORM.Integer, ORM.ForeignKey('parameters.uid'))
+    parameter_id = ORM.Column(ORM.Integer, ORM.ForeignKey("parameters.uid"))
 
     def __eq__(self, other: Value) -> bool:
         """
@@ -31,13 +31,15 @@ class ValueDao(Value, ORM.Model):
 
     def to_dict(self) -> dict:
         result = super().to_dict()
-        result.update({
-            "position": self.position,
-        })
+        result.update(
+            {
+                "position": self.position,
+            }
+        )
         return result
 
     @classmethod
-    def from_dict(cls, cls_dict: dict) -> 'ValueDao':
+    def from_dict(cls, cls_dict: dict) -> "ValueDao":
         result = super().from_dict(cls_dict)
         result.position = cls_dict["position"]
         return result

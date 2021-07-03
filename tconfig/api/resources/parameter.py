@@ -17,8 +17,8 @@ class ParameterResource(Resource):
         parameter = orm_utils.get_or_404_parameter_with_uid(uid)
         response_content = {
             "parameter": PARAMETER_SCHEMA.dump(parameter),
-            "parameter_url": url_for('.parameter', uid=uid),
-            "parameter_set_url": url_for('.parameter_set'),
+            "parameter_url": url_for(".parameter", uid=uid),
+            "parameter_set_url": url_for(".parameter_set"),
         }
         return response_content
 
@@ -33,15 +33,17 @@ class ParameterResource(Resource):
         if validation_errors:
             abort(400, f"Validation error(s):  {validation_errors}")
         for key in patch_data:
-            new_value = PARAMETER_SCHEMA.fields[key].deserialize(edit_parameter_info[key])
+            new_value = PARAMETER_SCHEMA.fields[key].deserialize(
+                edit_parameter_info[key]
+            )
             setattr(parameter, key, new_value)
         resource_utils.perform_orm_commit_or_500(parameter, operation="update")
         parameter_info = PARAMETER_SCHEMA.dump(parameter)
         response_content = {
-            'message': 'parameter updated',
+            "message": "parameter updated",
             "parameter": parameter_info,
-            "parameter_url": url_for('.parameter', uid=uid),
-            "parameter_set_url": url_for('.parameter_set'),
+            "parameter_url": url_for(".parameter", uid=uid),
+            "parameter_set_url": url_for(".parameter_set"),
         }
         return response_content
 
@@ -50,8 +52,8 @@ class ParameterResource(Resource):
         deleted_name = parameter.name
         resource_utils.perform_orm_commit_or_500(parameter, "delete")
         response_content = {
-            'message': f'parameter {uid} deleted',
-            'deleted_parameter_name': deleted_name,
-            "parameter_set_url": url_for('.parameter_set'),
+            "message": f"parameter {uid} deleted",
+            "deleted_parameter_name": deleted_name,
+            "parameter_set_url": url_for(".parameter_set"),
         }
         return response_content

@@ -14,6 +14,7 @@ from tconfig.tests.orm import test_utils
 
 # pylint: disable=invalid-name, redefined-outer-name
 
+
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def a1():
@@ -138,7 +139,8 @@ def parm_e(e1, e2):
 @pytest.fixture
 def parmset_abcde(parm_a, parm_b, parm_c, parm_d, parm_e):
     return test_utils.create_test_parameter_set(
-        parameters=[parm_a, parm_b, parm_c, parm_d, parm_e])
+        parameters=[parm_a, parm_b, parm_c, parm_d, parm_e]
+    )
 
 
 @pytest.mark.usefixtures("orm")
@@ -150,76 +152,76 @@ def test_schema_serialize(parmset_abcde, parm_a, parm_b, parm_c, parm_e):
     parmset_schema = ParameterSetSchema()
     schema_dict = parmset_schema.dump(parmset_abcde)
     expected = {
-        'name': None,
-        'parameters': [
+        "name": None,
+        "parameters": [
             {
-                'excluded': [3],
-                'excluded_by': [],
-                'name': 'A',
-                'parameter_set': 1,
-                'position': 0,
-                'uid': 1,
-                'values': [
-                    {'name': 'A1', 'parameter': 1, 'position': 0, 'uid': 1},
-                    {'name': 'A2', 'parameter': 1, 'position': 1, 'uid': 2},
-                    {'name': 'A3', 'parameter': 1, 'position': 2, 'uid': 3}
-                ]
+                "excluded": [3],
+                "excluded_by": [],
+                "name": "A",
+                "parameter_set": 1,
+                "position": 0,
+                "uid": 1,
+                "values": [
+                    {"name": "A1", "parameter": 1, "position": 0, "uid": 1},
+                    {"name": "A2", "parameter": 1, "position": 1, "uid": 2},
+                    {"name": "A3", "parameter": 1, "position": 2, "uid": 3},
+                ],
             },
             {
-                'excluded': [5],
-                'excluded_by': [],
-                'name': 'B',
-                'parameter_set': 1,
-                'position': 1,
-                'uid': 2,
-                'values': [
-                    {'name': 'B1', 'parameter': 2, 'position': 0, 'uid': 4},
-                    {'name': 'B2', 'parameter': 2, 'position': 1, 'uid': 5},
-                    {'name': 'B3', 'parameter': 2, 'position': 2, 'uid': 6}
-                ]
+                "excluded": [5],
+                "excluded_by": [],
+                "name": "B",
+                "parameter_set": 1,
+                "position": 1,
+                "uid": 2,
+                "values": [
+                    {"name": "B1", "parameter": 2, "position": 0, "uid": 4},
+                    {"name": "B2", "parameter": 2, "position": 1, "uid": 5},
+                    {"name": "B3", "parameter": 2, "position": 2, "uid": 6},
+                ],
             },
             {
-                'excluded': [],
-                'excluded_by': [1],
-                'name': 'C',
-                'parameter_set': 1,
-                'position': 2,
-                'uid': 3,
-                'values': [
-                    {'name': 'C1', 'parameter': 3, 'position': 0, 'uid': 7},
-                    {'name': 'C2', 'parameter': 3, 'position': 1, 'uid': 8},
-                    {'name': 'C3', 'parameter': 3, 'position': 2, 'uid': 9}
-                ]
+                "excluded": [],
+                "excluded_by": [1],
+                "name": "C",
+                "parameter_set": 1,
+                "position": 2,
+                "uid": 3,
+                "values": [
+                    {"name": "C1", "parameter": 3, "position": 0, "uid": 7},
+                    {"name": "C2", "parameter": 3, "position": 1, "uid": 8},
+                    {"name": "C3", "parameter": 3, "position": 2, "uid": 9},
+                ],
             },
             {
-                'excluded': [],
-                'excluded_by': [],
-                'name': 'D',
-                'parameter_set': 1,
-                'position': 3,
-                'uid': 4,
-                'values': [
-                    {'name': 'D1', 'parameter': 4, 'position': 0, 'uid': 10},
-                    {'name': 'D2', 'parameter': 4, 'position': 1, 'uid': 11},
-                    {'name': 'D3', 'parameter': 4, 'position': 2, 'uid': 12},
-                    {'name': 'D4', 'parameter': 4, 'position': 3, 'uid': 13}
-                ]
+                "excluded": [],
+                "excluded_by": [],
+                "name": "D",
+                "parameter_set": 1,
+                "position": 3,
+                "uid": 4,
+                "values": [
+                    {"name": "D1", "parameter": 4, "position": 0, "uid": 10},
+                    {"name": "D2", "parameter": 4, "position": 1, "uid": 11},
+                    {"name": "D3", "parameter": 4, "position": 2, "uid": 12},
+                    {"name": "D4", "parameter": 4, "position": 3, "uid": 13},
+                ],
             },
             {
-                'excluded': [],
-                'excluded_by': [2],
-                'name': 'E',
-                'parameter_set': 1,
-                'position': 4,
-                'uid': 5,
-                'values': [
-                    {'name': 'E1', 'parameter': 5, 'position': 0, 'uid': 14},
-                    {'name': 'E2', 'parameter': 5, 'position': 1, 'uid': 15}
-                ]
-            }
+                "excluded": [],
+                "excluded_by": [2],
+                "name": "E",
+                "parameter_set": 1,
+                "position": 4,
+                "uid": 5,
+                "values": [
+                    {"name": "E1", "parameter": 5, "position": 0, "uid": 14},
+                    {"name": "E2", "parameter": 5, "position": 1, "uid": 15},
+                ],
+            },
         ],
-        'position': None,
-        'uid': 1
+        "position": None,
+        "uid": 1,
     }
 
     assert schema_dict == expected
@@ -232,151 +234,76 @@ def test_schema_deserialize(orm, parmset_abcde, parm_a, parm_b, parm_c, parm_e):
 
     parmset_schema = ParameterSetSchema()
     parmset_dict = {
-        'name': None,
-        'parameters': [
+        "name": None,
+        "parameters": [
             {
-                'excluded': [3],
-                'excluded_by': [],
-                'name': 'A',
-                'parameter_set': 1,
-                'position': 0,
-                'uid': 1,
-                'values': [
-                    {
-                        'name': 'A1',
-                        'parameter': 1,
-                        'position': 0,
-                        'uid': 1
-                    },
-                    {
-                        'name': 'A2',
-                        'parameter': 1,
-                        'position': 1,
-                        'uid': 2
-                    },
-                    {
-                        'name': 'A3',
-                        'parameter': 1,
-                        'position': 2,
-                        'uid': 3
-                    }
-                ]
+                "excluded": [3],
+                "excluded_by": [],
+                "name": "A",
+                "parameter_set": 1,
+                "position": 0,
+                "uid": 1,
+                "values": [
+                    {"name": "A1", "parameter": 1, "position": 0, "uid": 1},
+                    {"name": "A2", "parameter": 1, "position": 1, "uid": 2},
+                    {"name": "A3", "parameter": 1, "position": 2, "uid": 3},
+                ],
             },
             {
-                'excluded': [5],
-                'excluded_by': [],
-                'name': 'B',
-                'parameter_set': 1,
-                'position': 1,
-                'uid': 2,
-                'values': [
-                    {
-                        'name': 'B1',
-                        'parameter': 2,
-                        'position': 0,
-                        'uid': 4
-                    },
-                    {
-                        'name': 'B2',
-                        'parameter': 2,
-                        'position': 1,
-                        'uid': 5
-                    },
-                    {
-                        'name': 'B3',
-                        'parameter': 2,
-                        'position': 2,
-                        'uid': 6
-                    }
-                ]
+                "excluded": [5],
+                "excluded_by": [],
+                "name": "B",
+                "parameter_set": 1,
+                "position": 1,
+                "uid": 2,
+                "values": [
+                    {"name": "B1", "parameter": 2, "position": 0, "uid": 4},
+                    {"name": "B2", "parameter": 2, "position": 1, "uid": 5},
+                    {"name": "B3", "parameter": 2, "position": 2, "uid": 6},
+                ],
             },
             {
-                'excluded': [],
-                'excluded_by': [1],
-                'name': 'C',
-                'parameter_set': 1,
-                'position': 2,
-                'uid': 3,
-                'values': [
-                    {
-                        'name': 'C1',
-                        'parameter': 3,
-                        'position': 0,
-                        'uid': 7
-                    },
-                    {
-                        'name': 'C2',
-                        'parameter': 3,
-                        'position': 1,
-                        'uid': 8
-                    },
-                    {
-                        'name': 'C3',
-                        'parameter': 3,
-                        'position': 2,
-                        'uid': 9
-                    }
-                ]
+                "excluded": [],
+                "excluded_by": [1],
+                "name": "C",
+                "parameter_set": 1,
+                "position": 2,
+                "uid": 3,
+                "values": [
+                    {"name": "C1", "parameter": 3, "position": 0, "uid": 7},
+                    {"name": "C2", "parameter": 3, "position": 1, "uid": 8},
+                    {"name": "C3", "parameter": 3, "position": 2, "uid": 9},
+                ],
             },
             {
-                'excluded': [],
-                'excluded_by': [],
-                'name': 'D',
-                'parameter_set': 1,
-                'position': 3,
-                'uid': 4,
-                'values': [
-                    {
-                        'name': 'D1',
-                        'parameter': 4,
-                        'position': 0,
-                        'uid': 10
-                    },
-                    {
-                        'name': 'D2',
-                        'parameter': 4,
-                        'position': 1,
-                        'uid': 11
-                    },
-                    {
-                        'name': 'D3',
-                        'parameter': 4,
-                        'position': 2,
-                        'uid': 12
-                    },
-                    {
-                        'name': 'D4',
-                        'parameter': 4,
-                        'position': 3,
-                        'uid': 13
-                    }
-                ]
+                "excluded": [],
+                "excluded_by": [],
+                "name": "D",
+                "parameter_set": 1,
+                "position": 3,
+                "uid": 4,
+                "values": [
+                    {"name": "D1", "parameter": 4, "position": 0, "uid": 10},
+                    {"name": "D2", "parameter": 4, "position": 1, "uid": 11},
+                    {"name": "D3", "parameter": 4, "position": 2, "uid": 12},
+                    {"name": "D4", "parameter": 4, "position": 3, "uid": 13},
+                ],
             },
             {
-                'excluded': [],
-                'excluded_by': [2],
-                'name': 'E',
-                'parameter_set': 1,
-                'position': 4,
-                'uid': 5,
-                'values': [
-                    {
-                        'name': 'E1',
-                        'parameter': 5,
-                        'position': 0,
-                        'uid': 14
-                    },
-                    {
-                        'name': 'E2',
-                        'parameter': 5,
-                        'position': 1,
-                        'uid': 15
-                    }
-                ]
-            }
+                "excluded": [],
+                "excluded_by": [2],
+                "name": "E",
+                "parameter_set": 1,
+                "position": 4,
+                "uid": 5,
+                "values": [
+                    {"name": "E1", "parameter": 5, "position": 0, "uid": 14},
+                    {"name": "E2", "parameter": 5, "position": 1, "uid": 15},
+                ],
+            },
         ],
-        'position': None,
-        'uid': 1
+        "position": None,
+        "uid": 1,
     }
     ps_loaded = parmset_schema.load(parmset_dict, session=orm.session)
     assert ps_loaded == parmset_abcde

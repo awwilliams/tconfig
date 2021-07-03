@@ -9,7 +9,6 @@ from typing import Tuple
 
 
 class InteractionElement(UserDict):
-
     def __repr__(self) -> str:
         return f"InteractionElement(value_dict={self.data})"
 
@@ -23,7 +22,7 @@ class InteractionElement(UserDict):
     def __hash__(self) -> int:
         return hash(self._key())
 
-    def __eq__(self, other: 'InteractionElement') -> bool:
+    def __eq__(self, other: "InteractionElement") -> bool:
         # noinspection PyProtectedMember
         return self._key() == other._key()  # pylint: disable=protected-access
 
@@ -31,7 +30,7 @@ class InteractionElement(UserDict):
     def degree(self) -> int:
         return len(self)
 
-    def get_ie_excepting_parm(self, parm_index: int) -> 'InteractionElement':
+    def get_ie_excepting_parm(self, parm_index: int) -> "InteractionElement":
         result = InteractionElement(self.data)
         del result[parm_index]
         return result

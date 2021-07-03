@@ -11,7 +11,6 @@ from tconfig.core.algorithms.recursive.rem_poly import RemainderPoly
 
 
 class GFPolynomial(object):
-
     def __init__(self, coef_list: List[RemainderPoly]):
         self.coef_list = [] if coef_list is None else coef_list
 
@@ -72,7 +71,8 @@ class GFPolynomial(object):
 
     def __add__(self, operand):
         coef_tuples = itertools.zip_longest(
-            self, operand, fillvalue=RemainderPoly.constant(0))
+            self, operand, fillvalue=RemainderPoly.constant(0)
+        )
         result_coefs = [a + b for a, b in coef_tuples]
         result = GFPolynomial(coef_list=result_coefs)
         return result
@@ -80,7 +80,8 @@ class GFPolynomial(object):
     def __mul__(self, operand):
         result_degree = self.degree + operand.degree
         result = GFPolynomial(
-            coef_list=[RemainderPoly.constant(0)] * (result_degree + 1))
+            coef_list=[RemainderPoly.constant(0)] * (result_degree + 1)
+        )
 
         for k in range(result_degree + 1):
             min_index = k - operand.degree if k - operand.degree > 0 else 0
@@ -97,9 +98,11 @@ class GFPolynomial(object):
         for index, coef in reversed(list(enumerate(self))):
             ecoef = coef.enumerate()
             if ecoef != 0:
-                content.append("{}{}{}".format(
-                    str(ecoef) if ecoef != 1 or index == 0 else '',
-                    'x' if index >= 1 else '',
-                    f'^{index}' if index >= 2 else ''
-                ))
-        return ' + '.join(content)
+                content.append(
+                    "{}{}{}".format(
+                        str(ecoef) if ecoef != 1 or index == 0 else "",
+                        "x" if index >= 1 else "",
+                        f"^{index}" if index >= 2 else "",
+                    )
+                )
+        return " + ".join(content)

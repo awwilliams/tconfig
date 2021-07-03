@@ -72,7 +72,7 @@ def test_div_no_inverse():
     a = IntMod(6)
     b = IntMod(4)
 
-    with pytest.raises(ArithmeticError, match='No inverse for 6 with modulus 8'):
+    with pytest.raises(ArithmeticError, match="No inverse for 6 with modulus 8"):
         a // b  # pylint: disable=pointless-statement
 
 

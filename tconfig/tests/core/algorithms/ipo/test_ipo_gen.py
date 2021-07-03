@@ -14,6 +14,7 @@ from tconfig.core.algorithms.ipo import IpoGenerator
 
 # pylint: disable=invalid-name, missing-function-docstring
 
+
 def test_add_new_test():
     cs = np.array([1, 2, 3, 4], dtype=DEFAULT_NDARRAY_TYPE)
 
@@ -125,17 +126,20 @@ def test_first_parameters():
     g = IpoGenerator(ps, 2)
     g.first_parameters()
 
-    cs_expected = np.array([
-        [1, 1],
-        [1, 2],
-        [1, 3],
-        [2, 1],
-        [2, 2],
-        [2, 3],
-        [3, 1],
-        [3, 2],
-        [3, 3],
-    ], dtype=DEFAULT_NDARRAY_TYPE)
+    cs_expected = np.array(
+        [
+            [1, 1],
+            [1, 2],
+            [1, 3],
+            [2, 1],
+            [2, 2],
+            [2, 3],
+            [3, 1],
+            [3, 2],
+            [3, 3],
+        ],
+        dtype=DEFAULT_NDARRAY_TYPE,
+    )
 
     assert np.array_equal(g.test_set, cs_expected)
 
@@ -311,16 +315,19 @@ def test_do_vertical_growth():
 def test_get_test_value_recur_1():
     ps = ParameterSet.create_from_parm_and_value_sizes(5, 2)
     g = IpoGenerator(ps, 3)
-    cs = np.array([
-        [1, 1, 1, 1],
-        [1, 1, 2, 0],
-        [1, 2, 1, 0],
-        [1, 2, 2, 0],
-        [2, 1, 1, 0],
-        [2, 1, 2, 0],
-        [2, 2, 1, 0],
-        [2, 2, 2, 0],
-    ], dtype=DEFAULT_NDARRAY_TYPE)
+    cs = np.array(
+        [
+            [1, 1, 1, 1],
+            [1, 1, 2, 0],
+            [1, 2, 1, 0],
+            [1, 2, 2, 0],
+            [2, 1, 1, 0],
+            [2, 1, 2, 0],
+            [2, 2, 1, 0],
+            [2, 2, 2, 0],
+        ],
+        dtype=DEFAULT_NDARRAY_TYPE,
+    )
     g.test_set = cs
 
     orig_set = set()
@@ -356,7 +363,8 @@ def test_get_test_value_recur_1():
     actual = set()
 
     g.get_test_value_recur(
-        orig_set, config_num, parm_num, cover, actual, test_value_list)
+        orig_set, config_num, parm_num, cover, actual, test_value_list
+    )
 
     expected = set()
     expected.add(InteractionElement({0: 1, 2: 1, 3: 1}))
@@ -368,24 +376,27 @@ def test_get_test_value_recur_1():
 def test_get_test_value_recur_2():
     ps = ParameterSet.create_from_parm_and_value_sizes(5, 2)
     g = IpoGenerator(ps, 4)
-    cs = np.array([
-        [1, 1, 1, 1, 1],
-        [1, 1, 1, 2, 0],
-        [1, 1, 2, 1, 0],
-        [1, 1, 2, 2, 0],
-        [1, 2, 1, 1, 0],
-        [1, 2, 1, 2, 0],
-        [1, 2, 2, 1, 0],
-        [1, 2, 2, 2, 0],
-        [2, 1, 1, 1, 0],
-        [2, 1, 1, 2, 0],
-        [2, 1, 2, 1, 0],
-        [2, 1, 2, 2, 0],
-        [2, 2, 1, 1, 0],
-        [2, 2, 1, 2, 0],
-        [2, 2, 2, 1, 0],
-        [2, 2, 2, 2, 0],
-    ], dtype=DEFAULT_NDARRAY_TYPE)
+    cs = np.array(
+        [
+            [1, 1, 1, 1, 1],
+            [1, 1, 1, 2, 0],
+            [1, 1, 2, 1, 0],
+            [1, 1, 2, 2, 0],
+            [1, 2, 1, 1, 0],
+            [1, 2, 1, 2, 0],
+            [1, 2, 2, 1, 0],
+            [1, 2, 2, 2, 0],
+            [2, 1, 1, 1, 0],
+            [2, 1, 1, 2, 0],
+            [2, 1, 2, 1, 0],
+            [2, 1, 2, 2, 0],
+            [2, 2, 1, 1, 0],
+            [2, 2, 1, 2, 0],
+            [2, 2, 2, 1, 0],
+            [2, 2, 2, 2, 0],
+        ],
+        dtype=DEFAULT_NDARRAY_TYPE,
+    )
     g.test_set = cs
 
     orig_set = set()
@@ -461,7 +472,8 @@ def test_get_test_value_recur_2():
     actual = set()
 
     g.get_test_value_recur(
-        orig_set, config_num, parm_num, cover, actual, test_value_list)
+        orig_set, config_num, parm_num, cover, actual, test_value_list
+    )
 
     expected = set()
     expected.add(InteractionElement({0: 1, 1: 1, 3: 1, 4: 1}))
@@ -475,14 +487,17 @@ def test_ipo_generate_1():
     gen = IpoGenerator(ps, 2)
     cs = gen.generate_covering_array()
 
-    cs_expected = np.array([
-        [1, 1, 1, 1],
-        [1, 2, 2, 2],
-        [2, 1, 2, 1],
-        [2, 2, 1, 2],
-        [0, 2, 0, 1],
-        [0, 1, 0, 2],
-    ], dtype=DEFAULT_NDARRAY_TYPE)
+    cs_expected = np.array(
+        [
+            [1, 1, 1, 1],
+            [1, 2, 2, 2],
+            [2, 1, 2, 1],
+            [2, 2, 1, 2],
+            [0, 2, 0, 1],
+            [0, 1, 0, 2],
+        ],
+        dtype=DEFAULT_NDARRAY_TYPE,
+    )
 
     assert np.array_equal(cs, cs_expected)
 
@@ -492,12 +507,15 @@ def test_ipo_generate_2():
     gen = IpoGenerator(ps, 2)
     cs = gen.generate_covering_array()
 
-    cs_expected = np.array([
-        [1, 1],
-        [1, 2],
-        [2, 1],
-        [2, 2],
-    ], dtype=DEFAULT_NDARRAY_TYPE)
+    cs_expected = np.array(
+        [
+            [1, 1],
+            [1, 2],
+            [2, 1],
+            [2, 2],
+        ],
+        dtype=DEFAULT_NDARRAY_TYPE,
+    )
 
     assert np.array_equal(cs, cs_expected)
 
@@ -507,27 +525,30 @@ def test_ipo_generate_3():
     gen = IpoGenerator(ps, 2)
     cs = gen.generate_covering_array()
 
-    cs_expected = np.array([
-        [1, 1, 1, 1, 1],
-        [1, 2, 2, 2, 2],
-        [1, 3, 3, 3, 3],
-        [2, 1, 2, 3, 1],
-        [2, 2, 1, 1, 3],
-        [2, 3, 1, 2, 2],
-        [3, 1, 3, 2, 1],
-        [3, 2, 1, 3, 2],
-        [3, 3, 2, 1, 3],
-        [2, 2, 3, 1, 2],
-        [0, 1, 0, 2, 3],
-        [0, 3, 0, 0, 1],
-        [0, 2, 0, 0, 1],
-        [0, 1, 0, 0, 2],
-    ], dtype=DEFAULT_NDARRAY_TYPE)
+    cs_expected = np.array(
+        [
+            [1, 1, 1, 1, 1],
+            [1, 2, 2, 2, 2],
+            [1, 3, 3, 3, 3],
+            [2, 1, 2, 3, 1],
+            [2, 2, 1, 1, 3],
+            [2, 3, 1, 2, 2],
+            [3, 1, 3, 2, 1],
+            [3, 2, 1, 3, 2],
+            [3, 3, 2, 1, 3],
+            [2, 2, 3, 1, 2],
+            [0, 1, 0, 2, 3],
+            [0, 3, 0, 0, 1],
+            [0, 2, 0, 0, 1],
+            [0, 1, 0, 0, 2],
+        ],
+        dtype=DEFAULT_NDARRAY_TYPE,
+    )
 
     assert np.array_equal(cs, cs_expected)
 
 
-'''
+"""
     @Test
     public void testDoHorizontalGrowth3( )
     {
@@ -550,7 +571,7 @@ def test_ipo_generate_3():
         int szActual = result.size( );
         Assert.assertEquals( szExpected, szActual );
     }
-'''
+"""
 
 
 def test_ipo_generate_4():
@@ -558,20 +579,23 @@ def test_ipo_generate_4():
     gen = IpoGenerator(ps, 3)
     cs = gen.generate_covering_array()
 
-    cs_expected = np.array([
-        [1, 1, 1, 1, 1],
-        [1, 1, 2, 2, 2],
-        [1, 2, 1, 2, 1],
-        [1, 2, 2, 1, 2],
-        [2, 1, 1, 2, 2],
-        [2, 1, 2, 1, 1],
-        [2, 2, 1, 1, 2],
-        [2, 2, 2, 2, 1],
-        [1, 1, 1, 1, 2],
-        [1, 2, 2, 1, 1],
-        [2, 2, 2, 2, 2],
-        [2, 1, 1, 2, 1],
-    ], dtype=DEFAULT_NDARRAY_TYPE)
+    cs_expected = np.array(
+        [
+            [1, 1, 1, 1, 1],
+            [1, 1, 2, 2, 2],
+            [1, 2, 1, 2, 1],
+            [1, 2, 2, 1, 2],
+            [2, 1, 1, 2, 2],
+            [2, 1, 2, 1, 1],
+            [2, 2, 1, 1, 2],
+            [2, 2, 2, 2, 1],
+            [1, 1, 1, 1, 2],
+            [1, 2, 2, 1, 1],
+            [2, 2, 2, 2, 2],
+            [2, 1, 1, 2, 1],
+        ],
+        dtype=DEFAULT_NDARRAY_TYPE,
+    )
 
     assert np.array_equal(cs, cs_expected)
 
@@ -581,23 +605,26 @@ def test_ipo_generate_5():
     gen = IpoGenerator(ps, 4)
     cs = gen.generate_covering_array()
 
-    cs_expected = np.array([
-        [1, 1, 1, 1, 1],
-        [1, 1, 1, 2, 2],
-        [1, 1, 2, 1, 2],
-        [1, 1, 2, 2, 1],
-        [1, 2, 1, 1, 2],
-        [1, 2, 1, 2, 1],
-        [1, 2, 2, 1, 1],
-        [1, 2, 2, 2, 2],
-        [2, 1, 1, 1, 2],
-        [2, 1, 1, 2, 1],
-        [2, 1, 2, 1, 1],
-        [2, 1, 2, 2, 2],
-        [2, 2, 1, 1, 1],
-        [2, 2, 1, 2, 2],
-        [2, 2, 2, 1, 2],
-        [2, 2, 2, 2, 1],
-    ], dtype=DEFAULT_NDARRAY_TYPE)
+    cs_expected = np.array(
+        [
+            [1, 1, 1, 1, 1],
+            [1, 1, 1, 2, 2],
+            [1, 1, 2, 1, 2],
+            [1, 1, 2, 2, 1],
+            [1, 2, 1, 1, 2],
+            [1, 2, 1, 2, 1],
+            [1, 2, 2, 1, 1],
+            [1, 2, 2, 2, 2],
+            [2, 1, 1, 1, 2],
+            [2, 1, 1, 2, 1],
+            [2, 1, 2, 1, 1],
+            [2, 1, 2, 2, 2],
+            [2, 2, 1, 1, 1],
+            [2, 2, 1, 2, 2],
+            [2, 2, 2, 1, 2],
+            [2, 2, 2, 2, 1],
+        ],
+        dtype=DEFAULT_NDARRAY_TYPE,
+    )
 
     assert np.array_equal(cs, cs_expected)

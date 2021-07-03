@@ -13,12 +13,15 @@ from . import ParameterSet, DEFAULT_NDARRAY_TYPE
 
 # pylint: disable=unsubscriptable-object
 
-class ConfigurationSet(object):
 
-    def __init__(self, *,
-                 parameter_set: Optional[ParameterSet] = None,
-                 covering_array: Optional[np.ndarray] = None,
-                 data_frame: Optional[pd.DataFrame] = None):
+class ConfigurationSet(object):
+    def __init__(
+        self,
+        *,
+        parameter_set: Optional[ParameterSet] = None,
+        covering_array: Optional[np.ndarray] = None,
+        data_frame: Optional[pd.DataFrame] = None,
+    ):
         """
         Convert a parameter set (list of Pandas Series) and a integer-based covering
         array (NumPy array) to a Pandas DataFrame where the column indices are the
@@ -26,9 +29,13 @@ class ConfigurationSet(object):
         entries are the parameter value names, and "don't care" values are set to
         the Pandas "null" value Pandas.NA.
         """
-        use_covering_array = (parameter_set and isinstance(covering_array, np.ndarray)) and data_frame is None
+        use_covering_array = (
+            parameter_set and isinstance(covering_array, np.ndarray)
+        ) and data_frame is None
         if use_covering_array:
-            self.configs = self.covering_array_to_dataframe(parameter_set, covering_array)
+            self.configs = self.covering_array_to_dataframe(
+                parameter_set, covering_array
+            )
         else:
             self.configs = data_frame
 
@@ -38,15 +45,19 @@ class ConfigurationSet(object):
     def __str__(self) -> str:
         return str(self.configs)
 
-    def __eq__(self, other: 'ConfigurationSet') -> bool:
+    def __eq__(self, other: "ConfigurationSet") -> bool:
         return self.configs.equals(other.configs)
 
     def __hash__(self) -> int:
         return hash(self.configs)
 
     def __iter__(self):
-        return iter([pd.Series(z, index=self.configs.columns)
-                     for z in self.configs.itertuples(index=False)])
+        return iter(
+            [
+                pd.Series(z, index=self.configs.columns)
+                for z in self.configs.itertuples(index=False)
+            ]
+        )
 
     def __len__(self) -> int:
         return len(self.configs)
@@ -65,7 +76,8 @@ class ConfigurationSet(object):
     @staticmethod
     def covering_array_to_dataframe(parameter_set, covering_array):
         dataframe = pd.DataFrame(
-            covering_array, columns=[parm.name for parm in parameter_set])
+            covering_array, columns=[parm.name for parm in parameter_set]
+        )
 
         # Replace the covering array integer entries for each column with the corresponding
         # values for that column's parameter.
@@ -98,10 +110,13 @@ class ConfigurationSet(object):
             for value in df_dict[index].values():
                 if value is pd.NA:
                     value_index = -1
-                elif hasattr(value, 'position'):
+                elif hasattr(value, "position"):
                     value_index = value.position
                 else:
-                    parameter, value_index = parameter_set.find_parameter_index_for_value(value)
+                    (
+                        parameter,
+                        value_index,
+                    ) = parameter_set.find_parameter_index_for_value(value)
 
                 # At this point, value_index is -1 if the parameter is "don't care" or
                 # the value doesn't match a parameter.  Covering arrays use 0 as "don't care"

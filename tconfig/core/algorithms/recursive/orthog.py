@@ -13,7 +13,6 @@ from tconfig.core.algorithms.recursive.latin import LatinSquares
 
 
 class OrthogonalArrayGenerator(object):
-
     def __init__(self, num_values, degree: int = 2, dtype=DEFAULT_NDARRAY_TYPE):
         self.num_values = num_values
         self.degree = degree
@@ -30,8 +29,9 @@ class OrthogonalArrayGenerator(object):
             result[config_index][0] = matrix_row + 1
             result[config_index][1] = matrix_col + 1
             for parm_index in range(2, num_parms):
-                result[config_index][parm_index] = 1 + \
-                                                   squares[parm_index - 2][matrix_row][matrix_col]
+                result[config_index][parm_index] = (
+                    1 + squares[parm_index - 2][matrix_row][matrix_col]
+                )
         return result
 
     def basic_array(self, repeat_factor: int) -> np.ndarray:
@@ -40,36 +40,49 @@ class OrthogonalArrayGenerator(object):
 
     def reduced_array(self, repeat_factor: int) -> np.ndarray:
         orthogonal_array = self.generate_oa()
-        return orthogonal_array[self.num_values:, 1:].repeat(repeat_factor, axis=1)
+        return orthogonal_array[self.num_values :, 1:].repeat(repeat_factor, axis=1)
 
     def two_to_n_block(self, repeat_factor: int = 0) -> Optional[np.ndarray]:
         if repeat_factor < 1:
             return None
         block_size = self.num_values ** (self.degree - 1)
-        return np.vstack([np.full((block_size, repeat_factor), value, dtype=self.ndarray_type)
-                          for value in range(2, self.num_values + 1)])
+        return np.vstack(
+            [
+                np.full((block_size, repeat_factor), value, dtype=self.ndarray_type)
+                for value in range(2, self.num_values + 1)
+            ]
+        )
 
-    def oversized_parameter(self,
-                            max_values: int, parm_index: int, num_parms: int,
-                            second_max: int) -> Optional[np.ndarray]:
+    def oversized_parameter(
+        self, max_values: int, parm_index: int, num_parms: int, second_max: int
+    ) -> Optional[np.ndarray]:
         if max_values <= self.num_values:
             return None
 
-        result = np.vstack([
-            np.insert(
-                np.arange(1, second_max + 1).reshape((second_max, 1)).repeat(num_parms - 1, axis=1),
-                parm_index,
-                oversize_value,
-                axis=1)
-            for oversize_value in range(self.num_values + 1, max_values + 1)
-        ])
+        result = np.vstack(
+            [
+                np.insert(
+                    np.arange(1, second_max + 1)
+                    .reshape((second_max, 1))
+                    .repeat(num_parms - 1, axis=1),
+                    parm_index,
+                    oversize_value,
+                    axis=1,
+                )
+                for oversize_value in range(self.num_values + 1, max_values + 1)
+            ]
+        )
         return result
 
     def extra_parameter_block(self, num_configs: int, num_parms: int) -> np.ndarray:
-        start_ones_block = np.ones((self.num_values, num_parms), dtype=self.ndarray_type)
+        start_ones_block = np.ones(
+            (self.num_values, num_parms), dtype=self.ndarray_type
+        )
 
         ones_row = np.ones((1, num_parms), dtype=self.ndarray_type)
-        zeros_block = np.zeros((self.num_values - 1, num_parms), dtype=self.ndarray_type)
+        zeros_block = np.zeros(
+            (self.num_values - 1, num_parms), dtype=self.ndarray_type
+        )
         block = np.concatenate((ones_row, zeros_block))
 
         result = start_ones_block

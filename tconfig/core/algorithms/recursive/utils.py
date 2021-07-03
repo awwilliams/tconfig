@@ -9,15 +9,76 @@ import math
 
 # Array of prime numbers 1 <= p <= 101. Used for quick reference to avoid
 # repeatedly finding prime numbers.
-PRIME_ARRAY = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47,
-               53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101]
+PRIME_ARRAY = [
+    2,
+    3,
+    5,
+    7,
+    11,
+    13,
+    17,
+    19,
+    23,
+    29,
+    31,
+    37,
+    41,
+    43,
+    47,
+    53,
+    59,
+    61,
+    67,
+    71,
+    73,
+    79,
+    83,
+    89,
+    97,
+    101,
+]
 
 
 # Array of prime powers numbers 1 <= p <= 101. Used for quick reference to
 # avoid repeatedly finding prime powers.
-PRIME_POWER_ARRAY = [2, 3, 4, 5, 7, 8, 9, 11, 13, 16, 17, 19, 23, 25,
-                     27, 29, 31, 32, 37, 41, 43, 47, 49, 53, 59, 61, 64,
-                     67, 71, 73, 79, 81, 83, 89, 97, 101]
+PRIME_POWER_ARRAY = [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    11,
+    13,
+    16,
+    17,
+    19,
+    23,
+    25,
+    27,
+    29,
+    31,
+    32,
+    37,
+    41,
+    43,
+    47,
+    49,
+    53,
+    59,
+    61,
+    64,
+    67,
+    71,
+    73,
+    79,
+    81,
+    83,
+    89,
+    97,
+    101,
+]
 
 # Largest prime power that these utility methods can handle (i.e. N < 103^2).
 
@@ -48,6 +109,7 @@ def is_prime_power(number):
             return 0  # composite
 
     return 1  # big prime
+
 
 # Returns the next highest prime power >= number.
 

@@ -18,13 +18,14 @@ class CustomJSONEncoder(json.JSONEncoder):
 class CustomJSONDecoder(json.JSONDecoder):
     def __init__(self, *args, **kwargs):
         self.orig_obj_hook = kwargs.pop("object_hook", None)
-        super(CustomJSONDecoder, self).__init__(*args,
-                                                object_hook=self.custom_obj_hook, **kwargs)
+        super(CustomJSONDecoder, self).__init__(
+            *args, object_hook=self.custom_obj_hook, **kwargs
+        )
 
     def custom_obj_hook(self, dct):
         # Calling custom decode function:
-        if 'parm_set' in dct:
-            dct['parm_set'] = ParameterSet.from_json(dct['parm_set'])
+        if "parm_set" in dct:
+            dct["parm_set"] = ParameterSet.from_json(dct["parm_set"])
 
         if self.orig_obj_hook:  # Do we have another hook to call?
             return self.orig_obj_hook(dct)  # Yes: then do it

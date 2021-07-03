@@ -1,10 +1,10 @@
-
 import pytest
 from tconfig.orm import orm_utils, ValueDao
 from . import test_utils
 
 
 # pylint: disable=redefined-outer-name
+
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
@@ -21,11 +21,7 @@ def test_jsonify_value_orm(val_a):
 
 @pytest.mark.usefixtures("orm")
 def test_to_dict_orm(val_a):
-    expected = {
-        "name": "A",
-        "uid": 1,
-        "position": None
-    }
+    expected = {"name": "A", "uid": 1, "position": None}
     assert val_a.to_dict() == expected
 
 

@@ -118,7 +118,9 @@ def test_getitem_slice():
 def test_getitem_mini_slice():
     p = Parameter("Z", [VAL_1, VAL_2, VAL_3, VAL_4])
 
-    assert p[1:2] == [VAL_2, ]
+    assert p[1:2] == [
+        VAL_2,
+    ]
 
 
 def test_setitem():
@@ -239,7 +241,9 @@ def test_index_start_stop():
 
 
 def test_to_dict():
-    p = Parameter("Z", [VAL_1, VAL_2, VAL_3, VAL_4], uid="337f7234-85a1-45a0-be77-0934ec232f21")
+    p = Parameter(
+        "Z", [VAL_1, VAL_2, VAL_3, VAL_4], uid="337f7234-85a1-45a0-be77-0934ec232f21"
+    )
     expected = {
         "name": "Z",
         "uid": "337f7234-85a1-45a0-be77-0934ec232f21",
@@ -252,7 +256,7 @@ def test_from_dict():
     p_dict = {
         "name": "Z",
         "uid": "337f7234-85a1-45a0-be77-0934ec232f21",
-        "values": [v.to_dict() for v in [VAL_1, VAL_2, VAL_3, VAL_4]]
+        "values": [v.to_dict() for v in [VAL_1, VAL_2, VAL_3, VAL_4]],
     }
     p = Parameter.from_dict(p_dict)
     assert p.name == "Z"
@@ -261,7 +265,9 @@ def test_from_dict():
 
 
 def test_dict_round_trip():
-    p_orig = Parameter("Z", [VAL_1, VAL_2, VAL_3, VAL_4], uid="337f7234-85a1-45a0-be77-0934ec232f21")
+    p_orig = Parameter(
+        "Z", [VAL_1, VAL_2, VAL_3, VAL_4], uid="337f7234-85a1-45a0-be77-0934ec232f21"
+    )
 
     parameter_dict = p_orig.to_dict()
     p_new = Parameter.from_dict(parameter_dict)

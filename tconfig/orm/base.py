@@ -11,7 +11,7 @@ class OrmResource(Model):
     @declared_attr
     def uid(cls):  # @NoSelf
         for base in cls.__mro__[1:-1]:
-            if getattr(base, '__table__', None) is not None:
+            if getattr(base, "__table__", None) is not None:
                 uid_type = sa.ForeignKey(base.uid)
                 break
         else:
@@ -22,7 +22,7 @@ class OrmResource(Model):
     @declared_attr
     def position(cls):  # @NoSelf
         for base in cls.__mro__[1:-1]:
-            if getattr(base, '__table__', None) is not None:
+            if getattr(base, "__table__", None) is not None:
                 position_type = sa.ForeignKey(base.position)
                 break
         else:

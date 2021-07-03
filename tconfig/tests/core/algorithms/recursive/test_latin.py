@@ -11,6 +11,7 @@ from tconfig.core.algorithms.recursive.latin import LatinSquares
 
 # pylint: disable=invalid-name
 
+
 def test_prime_order():
     sq = LatinSquares(5).squares
     sq_expected = np.empty((4, 5, 5), dtype=DEFAULT_NDARRAY_TYPE)

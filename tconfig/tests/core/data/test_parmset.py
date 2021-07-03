@@ -175,9 +175,11 @@ def test_init_default():
 
 
 def test_init_one_parm():
-    p = Parameter.create_with_unnamed_values('Z', 4)
+    p = Parameter.create_with_unnamed_values("Z", 4)
 
-    plist = [p, ]
+    plist = [
+        p,
+    ]
     ps = ParameterSet(plist)
 
     assert ps.parameters == plist
@@ -294,14 +296,7 @@ def test_extend(parm_set_5, parm_1, parm_2, parm_3, parm_4, parm_5, parm_6, parm
 
     assert len(parm_set_5) == 7
 
-    expected_plist = [
-        parm_1,
-        parm_2,
-        parm_3,
-        parm_4,
-        parm_5,
-        parm_6,
-        parm_7]
+    expected_plist = [parm_1, parm_2, parm_3, parm_4, parm_5, parm_6, parm_7]
 
     ps_expected = ParameterSet(expected_plist)
     assert parm_set_5.parameters == ps_expected.parameters
@@ -395,16 +390,20 @@ def test_clear(parm_set_5):
     assert parm_set_5.parameters == []
 
 
-def test_to_dataframe(parmset_ae, a1, a2, a3, b1, b2, b3, c1, c2, c3,
-                      d1, d2, d3, d4, e1, e2):
+def test_to_dataframe(
+    parmset_ae, a1, a2, a3, b1, b2, b3, c1, c2, c3, d1, d2, d3, d4, e1, e2
+):
     df = parmset_ae.to_dataframe()
 
-    expected_df = pd.DataFrame([
-        [a1, b1, c1, d1, e1],
-        [a2, b2, c2, d2, e2],
-        [a3, b3, c3, d3, np.NaN],
-        [np.NaN, np.NaN, np.NaN, d4, np.NaN]
-    ], columns=["A", "B", "C", "D", "E"])
+    expected_df = pd.DataFrame(
+        [
+            [a1, b1, c1, d1, e1],
+            [a2, b2, c2, d2, e2],
+            [a3, b3, c3, d3, np.NaN],
+            [np.NaN, np.NaN, np.NaN, d4, np.NaN],
+        ],
+        columns=["A", "B", "C", "D", "E"],
+    )
 
     assert df.equals(expected_df)
 
@@ -425,18 +424,21 @@ def test_from_dict(parmset_ae, parm_a, parm_b, parm_c, parm_d, parm_e):
     parmset_dict = {
         "uid": "337f7234-85a1-45a0-be77-0934ec232f21",
         "parameters": [p.to_dict() for p in [parm_a, parm_b, parm_c, parm_d, parm_e]],
-        'adjacency': [
+        "adjacency": [
             [True, True, False, True, True],
             [True, True, True, True, False],
             [False, True, True, True, True],
             [True, True, True, True, True],
-            [True, False, True, True, True]
-        ]
+            [True, False, True, True, True],
+        ],
     }
 
     ps = ParameterSet.from_dict(parmset_dict)
 
-    expected_ps = ParameterSet([parm_a, parm_b, parm_c, parm_d, parm_e], uid="337f7234-85a1-45a0-be77-0934ec232f21")
+    expected_ps = ParameterSet(
+        [parm_a, parm_b, parm_c, parm_d, parm_e],
+        uid="337f7234-85a1-45a0-be77-0934ec232f21",
+    )
     expected_ps.set_adjacent(parm_a, parm_c, False)
     expected_ps.set_adjacent(parm_b, parm_e, False)
 

@@ -2,7 +2,11 @@ from flask import request, url_for
 from flask_restx import Resource, abort
 
 from tconfig.orm import orm_utils
-from tconfig.api.schemas import ParameterSchema, ParameterExclusionSchema, UpdateParameterSchema
+from tconfig.api.schemas import (
+    ParameterSchema,
+    ParameterExclusionSchema,
+    UpdateParameterSchema,
+)
 from tconfig.api.resources import resource_utils
 
 PARAMETER_EXCLUSION_SCHEMA = ParameterExclusionSchema()
@@ -16,10 +20,10 @@ class ParameterExclusionListResource(Resource):
         parameter = orm_utils.get_or_404_parameter_with_uid(uid)
         excluded_content = PARAMETER_EXCLUSION_SCHEMA.dump(parameter)
         response_content = {
-            'message': f'exclusions for parameter {uid}',
-            'parameter': excluded_content,
-            'parameter_url': url_for('.parameter', uid=uid),
-            'parameter_exclusion_url': url_for('.parameter_exclude_list', uid=uid),
+            "message": f"exclusions for parameter {uid}",
+            "parameter": excluded_content,
+            "parameter_url": url_for(".parameter", uid=uid),
+            "parameter_exclusion_url": url_for(".parameter_exclude_list", uid=uid),
         }
         return response_content
 
@@ -34,13 +38,15 @@ class ParameterExclusionListResource(Resource):
         if validation_errors:
             abort(400, f"Validation error(s):  {validation_errors}")
         for key in patch_data:
-            new_value = PARAMETER_SCHEMA.fields[key].deserialize(edit_parameter_info[key])
+            new_value = PARAMETER_SCHEMA.fields[key].deserialize(
+                edit_parameter_info[key]
+            )
             setattr(parameter, key, new_value)
         resource_utils.perform_orm_commit_or_500(parameter, operation="update")
         parameter_info = PARAMETER_EXCLUSION_SCHEMA.dump(parameter)
         response_content = {
-            'message': 'parameter exclusion created',
+            "message": "parameter exclusion created",
             "parameter": parameter_info,
-            "parameter_url": url_for('.parameter', uid=uid),
+            "parameter_url": url_for(".parameter", uid=uid),
         }
         return response_content, 201

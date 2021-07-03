@@ -25,24 +25,27 @@ class DataframeConfigsField(fields.Field):
         # noinspection PyUnresolvedReferences
         df_dict = value.to_dict(orient="index")
         return [
-            {parm_name: VALUE_SCHEMA.dump(value)
-             for parm_name, value in df_dict[index].items()}
+            {
+                parm_name: VALUE_SCHEMA.dump(value)
+                for parm_name, value in df_dict[index].items()
+            }
             for index in df_dict
         ]
 
     def _deserialize(
-            self,
-            value: typing.Any,
-            attr: typing.Optional[str],
-            data: typing.Optional[typing.Mapping[str, typing.Any]],
-            **kwargs
+        self,
+        value: typing.Any,
+        attr: typing.Optional[str],
+        data: typing.Optional[typing.Mapping[str, typing.Any]],
+        **kwargs
     ):
         frame_dict = []
         for config in value:
             config_entry = {}
             for parameter_name, value_entry in config.items():
-                value_obj = VALUE_SCHEMA.load(value_entry,
-                                              session=orm_utils.orm_session())
+                value_obj = VALUE_SCHEMA.load(
+                    value_entry, session=orm_utils.orm_session()
+                )
                 config_entry[parameter_name] = value_obj
             frame_dict.append(config_entry)
         result = pd.DataFrame(frame_dict)
@@ -57,8 +60,8 @@ class DataframeParameterNamesField(fields.Field):
 
 
 class ConfigSetSchema(Schema):
-    configs = DataframeConfigsField(data_key='configurations')
-    parameter_names = DataframeParameterNamesField(dump_only=True, attribute='configs')
+    configs = DataframeConfigsField(data_key="configurations")
+    parameter_names = DataframeParameterNamesField(dump_only=True, attribute="configs")
 
     # noinspection PyUnusedLocal
     @post_load

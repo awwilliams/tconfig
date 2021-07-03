@@ -14,7 +14,9 @@ class Value(JsonSerializable):
     """
 
     # noinspection PyUnusedLocal
-    def __init__(self, name: str = "", uid: UidType = None, **kwargs):  # pylint: disable=unused-argument
+    def __init__(
+        self, name: str = "", uid: UidType = None, **kwargs
+    ):  # pylint: disable=unused-argument
         """
         Initialization:  arguments passed through to superclasses/mixins.
         """
@@ -27,28 +29,32 @@ class Value(JsonSerializable):
     def __repr__(self) -> str:
         return f'{self.__class__.__name__}(name="{self.name}", uid="{self.uid}")'
 
-    def __eq__(self, other: 'Value') -> bool:
+    def __eq__(self, other: "Value") -> bool:
         """
         Equality:  name and UUID (if present) must agree.
         """
-        return all(getattr(self, attr) == getattr(other, attr) for attr in ["uid", "name"])
+        return all(
+            getattr(self, attr) == getattr(other, attr) for attr in ["uid", "name"]
+        )
 
     def __hash__(self) -> int:
         """
         Hash code:  use name and UUID (if present).
         """
-        return hash((self.name, getattr(self, 'uid')))
+        return hash((self.name, getattr(self, "uid")))
 
     def to_dict(self) -> dict:
         """
         Return a dictionary
         """
         result = super().to_dict()
-        result.update({
-            "name": self.name,
-        })
+        result.update(
+            {
+                "name": self.name,
+            }
+        )
         return result
 
     @classmethod
-    def from_dict(cls, cls_dict: dict) -> 'Value':
+    def from_dict(cls, cls_dict: dict) -> "Value":
         return cls(name=cls_dict["name"], uid=cls_dict["uid"])

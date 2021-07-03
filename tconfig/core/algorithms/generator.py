@@ -4,9 +4,14 @@ from tconfig.core.data import ParameterSet, DEFAULT_NDARRAY_TYPE
 
 
 class Generator:
-
-    def __init__(self, parameter_set: ParameterSet, coverage_degree: int = 2, *,
-                 dtype=DEFAULT_NDARRAY_TYPE, existing_configs: Optional[np.ndarray] = None):
+    def __init__(
+        self,
+        parameter_set: ParameterSet,
+        coverage_degree: int = 2,
+        *,
+        dtype=DEFAULT_NDARRAY_TYPE,
+        existing_configs: Optional[np.ndarray] = None
+    ):
         """
         Initialize covering array generator.
 
@@ -29,4 +34,5 @@ class Generator:
         Generate a set of configurations for the ParameterSet and coverage degree.
         """
         raise NotImplementedError(
-            "Generator.generate_covering_array() must be implemented by subclasses")
+            "Generator.generate_covering_array() must be implemented by subclasses"
+        )

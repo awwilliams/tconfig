@@ -28,12 +28,16 @@ def orm_commit(items, operation="add"):
 
 def get_or_404_parameter_set(uid=1):
     error_message = f"No parameter set with uid '{uid}' was found"
-    return ParameterSetDao.query.get_or_404(uid, description=error_message)  # @UndefinedVariable
+    return ParameterSetDao.query.get_or_404(
+        uid, description=error_message
+    )  # @UndefinedVariable
 
 
 def get_or_404_parameter_with_uid(uid):
     error_message = f"No parameter with uid '{uid}' was found in the parameter set"
-    return ParameterDao.query.get_or_404(uid, description=error_message)  # @UndefinedVariable
+    return ParameterDao.query.get_or_404(
+        uid, description=error_message
+    )  # @UndefinedVariable
 
 
 def get_or_400_parameter_with_uid(uid):
@@ -46,14 +50,20 @@ def get_or_400_parameter_with_uid(uid):
 
 def get_or_404_value_with_uid(uid):
     error_message = f"No value with uid '{uid}' was found in the parameter set"
-    return ValueDao.query.get_or_404(uid, description=error_message)  # @UndefinedVariable
+    return ValueDao.query.get_or_404(
+        uid, description=error_message
+    )  # @UndefinedVariable
 
 
 def get_or_404_parameter_value_with_uid(parm, uid_value):
-    error_message = f"No value with name '{uid_value}' was found in parameter with uid '{parm.uid}'"
+    error_message = (
+        f"No value with name '{uid_value}' was found in parameter with uid '{parm.uid}'"
+    )
     try:
         uid_int = int(uid_value)
-        return ValueDao.query.get_or_404(uid_int, description=error_message)  # @UndefinedVariable
+        return ValueDao.query.get_or_404(
+            uid_int, description=error_message
+        )  # @UndefinedVariable
     except ValueError:
         value_match = [val for val in parm.values if str(val.uid) == str(uid_value)]
         if value_match:

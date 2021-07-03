@@ -28,7 +28,8 @@ class PopulateResource(Resource):
         TWENTIES = orm_utils.create_value("20s")
 
         orm_utils.orm_commit(
-            [RED, GREEN, BIRD, CAT, DOG, FISH, FAST, SLOW, EIGHTIES, TWENTIES], "add")
+            [RED, GREEN, BIRD, CAT, DOG, FISH, FAST, SLOW, EIGHTIES, TWENTIES], "add"
+        )
 
         p1 = orm_utils.create_parameter("Colour", [RED, GREEN])
         p2 = orm_utils.create_parameter("Pet", [BIRD, CAT, DOG, FISH])
@@ -43,6 +44,6 @@ class PopulateResource(Resource):
         parameter_set = orm_utils.get_or_404_parameter_set()
         response_content = {
             "parameter_set": PARAMETER_SET_SCHEMA.dump(parameter_set),
-            "parameter_set_url": url_for('.parameter_set'),
+            "parameter_set_url": url_for(".parameter_set"),
         }
         return response_content

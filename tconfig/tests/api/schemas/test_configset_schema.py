@@ -14,6 +14,7 @@ from tconfig.tests.orm import test_utils
 
 # pylint: disable=invalid-name, redefined-outer-name
 
+
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def red():
@@ -107,14 +108,15 @@ def speed(fast, medium, slow):
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def music(seventies, eighties, twenties):
-    return test_utils.create_test_parameter("Music", values=[seventies, eighties, twenties])
+    return test_utils.create_test_parameter(
+        "Music", values=[seventies, eighties, twenties]
+    )
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parm_set(colour, pet, speed, music):
-    return test_utils.create_test_parameter_set(
-        parameters=[colour, pet, speed, music])
+    return test_utils.create_test_parameter_set(parameters=[colour, pet, speed, music])
 
 
 @pytest.fixture
@@ -129,9 +131,9 @@ def covering_array():
             [2, 3, 1, 2],
             [3, 1, 3, 2],
             [3, 2, 1, 3],
-            [3, 3, 2, 1]
+            [3, 3, 2, 1],
         ],
-        dtype=np.uint8
+        dtype=np.uint8,
     )
 
 
@@ -148,63 +150,63 @@ def test_schema_serialize(config_set):
     configset_schema = ConfigSetSchema()
     schema_dict = configset_schema.dump(config_set)
     expected = {
-        'configurations': [
+        "configurations": [
             {
-                'Colour': {'name': 'Red', 'uid': 1},
-                'Music': {'name': '70s', 'uid': 10},
-                'Pet': {'name': 'Bird', 'uid': 4},
-                'Speed': {'name': 'Fast', 'uid': 7}
+                "Colour": {"name": "Red", "uid": 1},
+                "Music": {"name": "70s", "uid": 10},
+                "Pet": {"name": "Bird", "uid": 4},
+                "Speed": {"name": "Fast", "uid": 7},
             },
             {
-                'Colour': {'name': 'Red', 'uid': 1},
-                'Music': {'name': '80s', 'uid': 11},
-                'Pet': {'name': 'Cat', 'uid': 5},
-                'Speed': {'name': 'Medium', 'uid': 8}
+                "Colour": {"name": "Red", "uid": 1},
+                "Music": {"name": "80s", "uid": 11},
+                "Pet": {"name": "Cat", "uid": 5},
+                "Speed": {"name": "Medium", "uid": 8},
             },
             {
-                'Colour': {'name': 'Red', 'uid': 1},
-                'Music': {'name': '20s', 'uid': 12},
-                'Pet': {'name': 'Dog', 'uid': 6},
-                'Speed': {'name': 'Slow', 'uid': 9}
+                "Colour": {"name": "Red", "uid": 1},
+                "Music": {"name": "20s", "uid": 12},
+                "Pet": {"name": "Dog", "uid": 6},
+                "Speed": {"name": "Slow", "uid": 9},
             },
             {
-                'Colour': {'name': 'Green', 'uid': 2},
-                'Music': {'name': '20s', 'uid': 12},
-                'Pet': {'name': 'Bird', 'uid': 4},
-                'Speed': {'name': 'Medium', 'uid': 8}
+                "Colour": {"name": "Green", "uid": 2},
+                "Music": {"name": "20s", "uid": 12},
+                "Pet": {"name": "Bird", "uid": 4},
+                "Speed": {"name": "Medium", "uid": 8},
             },
             {
-                'Colour': {'name': 'Green', 'uid': 2},
-                'Music': {'name': '70s', 'uid': 10},
-                'Pet': {'name': 'Cat', 'uid': 5},
-                'Speed': {'name': 'Slow', 'uid': 9}
+                "Colour": {"name": "Green", "uid": 2},
+                "Music": {"name": "70s", "uid": 10},
+                "Pet": {"name": "Cat", "uid": 5},
+                "Speed": {"name": "Slow", "uid": 9},
             },
             {
-                'Colour': {'name': 'Green', 'uid': 2},
-                'Music': {'name': '80s', 'uid': 11},
-                'Pet': {'name': 'Dog', 'uid': 6},
-                'Speed': {'name': 'Fast', 'uid': 7}
+                "Colour": {"name": "Green", "uid": 2},
+                "Music": {"name": "80s", "uid": 11},
+                "Pet": {"name": "Dog", "uid": 6},
+                "Speed": {"name": "Fast", "uid": 7},
             },
             {
-                'Colour': {'name': 'Blue', 'uid': 3},
-                'Music': {'name': '80s', 'uid': 11},
-                'Pet': {'name': 'Bird', 'uid': 4},
-                'Speed': {'name': 'Slow', 'uid': 9}
+                "Colour": {"name": "Blue", "uid": 3},
+                "Music": {"name": "80s", "uid": 11},
+                "Pet": {"name": "Bird", "uid": 4},
+                "Speed": {"name": "Slow", "uid": 9},
             },
             {
-                'Colour': {'name': 'Blue', 'uid': 3},
-                'Music': {'name': '20s', 'uid': 12},
-                'Pet': {'name': 'Cat', 'uid': 5},
-                'Speed': {'name': 'Fast', 'uid': 7}
+                "Colour": {"name": "Blue", "uid": 3},
+                "Music": {"name": "20s", "uid": 12},
+                "Pet": {"name": "Cat", "uid": 5},
+                "Speed": {"name": "Fast", "uid": 7},
             },
             {
-                'Colour': {'name': 'Blue', 'uid': 3},
-                'Music': {'name': '70s', 'uid': 10},
-                'Pet': {'name': 'Dog', 'uid': 6},
-                'Speed': {'name': 'Medium', 'uid': 8},
-            }
+                "Colour": {"name": "Blue", "uid": 3},
+                "Music": {"name": "70s", "uid": 10},
+                "Pet": {"name": "Dog", "uid": 6},
+                "Speed": {"name": "Medium", "uid": 8},
+            },
         ],
-        'parameter_names': ['Colour', 'Pet', 'Speed', 'Music'],
+        "parameter_names": ["Colour", "Pet", "Speed", "Music"],
     }
     assert schema_dict == expected
 
@@ -215,63 +217,63 @@ def test_schema_deserialize(orm, config_set):
 
     configset_schema = ConfigSetSchema()
     configset_dict = {
-        'configurations': [
+        "configurations": [
             {
-                'Colour': {'name': 'Red', 'uid': 1},
-                'Music': {'name': '70s', 'uid': 10},
-                'Pet': {'name': 'Bird', 'uid': 4},
-                'Speed': {'name': 'Fast', 'uid': 7}
+                "Colour": {"name": "Red", "uid": 1},
+                "Music": {"name": "70s", "uid": 10},
+                "Pet": {"name": "Bird", "uid": 4},
+                "Speed": {"name": "Fast", "uid": 7},
             },
             {
-                'Colour': {'name': 'Red', 'uid': 1},
-                'Music': {'name': '80s', 'uid': 11},
-                'Pet': {'name': 'Cat', 'uid': 5},
-                'Speed': {'name': 'Medium', 'uid': 8}
+                "Colour": {"name": "Red", "uid": 1},
+                "Music": {"name": "80s", "uid": 11},
+                "Pet": {"name": "Cat", "uid": 5},
+                "Speed": {"name": "Medium", "uid": 8},
             },
             {
-                'Colour': {'name': 'Red', 'uid': 1},
-                'Music': {'name': '20s', 'uid': 12},
-                'Pet': {'name': 'Dog', 'uid': 6},
-                'Speed': {'name': 'Slow', 'uid': 9}
+                "Colour": {"name": "Red", "uid": 1},
+                "Music": {"name": "20s", "uid": 12},
+                "Pet": {"name": "Dog", "uid": 6},
+                "Speed": {"name": "Slow", "uid": 9},
             },
             {
-                'Colour': {'name': 'Green', 'uid': 2},
-                'Music': {'name': '20s', 'uid': 12},
-                'Pet': {'name': 'Bird', 'uid': 4},
-                'Speed': {'name': 'Medium', 'uid': 8}
+                "Colour": {"name": "Green", "uid": 2},
+                "Music": {"name": "20s", "uid": 12},
+                "Pet": {"name": "Bird", "uid": 4},
+                "Speed": {"name": "Medium", "uid": 8},
             },
             {
-                'Colour': {'name': 'Green', 'uid': 2},
-                'Music': {'name': '70s', 'uid': 10},
-                'Pet': {'name': 'Cat', 'uid': 5},
-                'Speed': {'name': 'Slow', 'uid': 9}
+                "Colour": {"name": "Green", "uid": 2},
+                "Music": {"name": "70s", "uid": 10},
+                "Pet": {"name": "Cat", "uid": 5},
+                "Speed": {"name": "Slow", "uid": 9},
             },
             {
-                'Colour': {'name': 'Green', 'uid': 2},
-                'Music': {'name': '80s', 'uid': 11},
-                'Pet': {'name': 'Dog', 'uid': 6},
-                'Speed': {'name': 'Fast', 'uid': 7}
+                "Colour": {"name": "Green", "uid": 2},
+                "Music": {"name": "80s", "uid": 11},
+                "Pet": {"name": "Dog", "uid": 6},
+                "Speed": {"name": "Fast", "uid": 7},
             },
             {
-                'Colour': {'name': 'Blue', 'uid': 3},
-                'Music': {'name': '80s', 'uid': 11},
-                'Pet': {'name': 'Bird', 'uid': 4},
-                'Speed': {'name': 'Slow', 'uid': 9}
+                "Colour": {"name": "Blue", "uid": 3},
+                "Music": {"name": "80s", "uid": 11},
+                "Pet": {"name": "Bird", "uid": 4},
+                "Speed": {"name": "Slow", "uid": 9},
             },
             {
-                'Colour': {'name': 'Blue', 'uid': 3},
-                'Music': {'name': '20s', 'uid': 12},
-                'Pet': {'name': 'Cat', 'uid': 5},
-                'Speed': {'name': 'Fast', 'uid': 7}
+                "Colour": {"name": "Blue", "uid": 3},
+                "Music": {"name": "20s", "uid": 12},
+                "Pet": {"name": "Cat", "uid": 5},
+                "Speed": {"name": "Fast", "uid": 7},
             },
             {
-                'Colour': {'name': 'Blue', 'uid': 3},
-                'Music': {'name': '70s', 'uid': 10},
-                'Pet': {'name': 'Dog', 'uid': 6},
-                'Speed': {'name': 'Medium', 'uid': 8},
-            }
+                "Colour": {"name": "Blue", "uid": 3},
+                "Music": {"name": "70s", "uid": 10},
+                "Pet": {"name": "Dog", "uid": 6},
+                "Speed": {"name": "Medium", "uid": 8},
+            },
         ],
-        'parameter_names': ['Colour', 'Pet', 'Speed', 'Music'],
+        "parameter_names": ["Colour", "Pet", "Speed", "Music"],
     }
     config_set_loaded = configset_schema.load(configset_dict, unknown=INCLUDE)
     assert config_set_loaded == config_set

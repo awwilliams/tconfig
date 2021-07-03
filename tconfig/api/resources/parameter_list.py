@@ -17,8 +17,10 @@ class ParameterListResource(Resource):
     def get(self):
         parameter_list = orm_utils.get_parameter_list()
         response_content = {
-            "parameter_list": [PARAMETER_SCHEMA.dump(parameter) for parameter in parameter_list],
-            "parameter_List_url": url_for('.parameter_list'),
+            "parameter_list": [
+                PARAMETER_SCHEMA.dump(parameter) for parameter in parameter_list
+            ],
+            "parameter_List_url": url_for(".parameter_list"),
         }
         return response_content
 
@@ -29,17 +31,17 @@ class ParameterListResource(Resource):
         validation_errors = MOVE_PARAMETER_SCHEMA.validate(put_data)
         if validation_errors:
             abort(400, f"Validation error(s):  {validation_errors}")
-        old_index = put_data['oldIndex']
-        new_index = put_data['newIndex']
+        old_index = put_data["oldIndex"]
+        new_index = put_data["newIndex"]
         moved_parameter = parameter_set.pop(old_index)
         parameter_set.insert(new_index, moved_parameter)
         resource_utils.perform_orm_commit_or_500(parameter_set, operation="update")
         response_content = {
-            'message': 'parameter moved within list',
-            'old_index': old_index,
-            'new_index': new_index,
-            'moved_parameter_url': url_for('.parameter', uid=moved_parameter.uid),
-            "parameter_List_url": url_for('.parameter_list'),
+            "message": "parameter moved within list",
+            "old_index": old_index,
+            "new_index": new_index,
+            "moved_parameter_url": url_for(".parameter", uid=moved_parameter.uid),
+            "parameter_List_url": url_for(".parameter_list"),
         }
         return response_content
 
@@ -58,10 +60,10 @@ class ParameterListResource(Resource):
         resource_utils.perform_orm_commit_or_500(parameter_set)
         new_id = new_parameter.uid
         response_content = {
-            'message': 'new parameter created',
-            'new_parameter': PARAMETER_SCHEMA.dump(new_parameter),
-            'new_parameter_url': url_for('.parameter', uid=new_id),
-            "parameter_list_url": url_for('.parameter_list'),
-            'parameter_set_url': url_for('.parameter_set'),
+            "message": "new parameter created",
+            "new_parameter": PARAMETER_SCHEMA.dump(new_parameter),
+            "new_parameter_url": url_for(".parameter", uid=new_id),
+            "parameter_list_url": url_for(".parameter_list"),
+            "parameter_set_url": url_for(".parameter_set"),
         }
         return response_content, 201

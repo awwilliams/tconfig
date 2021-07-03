@@ -8,10 +8,10 @@ from tconfig.core.data import Parameter
 
 
 class ParameterDao(Parameter, ORM.Model):
-    __tablename__ = 'parameters'
+    __tablename__ = "parameters"
 
     name = ORM.Column(ORM.String(64))
-    parameter_set_id = ORM.Column(ORM.Integer, ORM.ForeignKey('parameter_sets.uid'))
+    parameter_set_id = ORM.Column(ORM.Integer, ORM.ForeignKey("parameter_sets.uid"))
 
     def __eq__(self, other: "Parameter") -> bool:
         return self.name == other.name and self.values == other.values
@@ -21,13 +21,15 @@ class ParameterDao(Parameter, ORM.Model):
 
     def to_dict(self) -> dict:
         result = super().to_dict()
-        result.update({
-            "position": self.position,
-        })
+        result.update(
+            {
+                "position": self.position,
+            }
+        )
         return result
 
     @classmethod
-    def from_dict(cls, cls_dict) -> 'ParameterDao':
+    def from_dict(cls, cls_dict) -> "ParameterDao":
         result = super().from_dict(cls_dict)
         result.position = cls_dict["position"]
         return result
@@ -52,6 +54,4 @@ class ParameterDao(Parameter, ORM.Model):
         return other_parm in self.excluded_by.all()
 
     def interacts_with(self, other_parm):
-        return not self.is_excluding(
-            other_parm) and not self.is_excluded_by(other_parm)
-
+        return not self.is_excluding(other_parm) and not self.is_excluded_by(other_parm)

@@ -17,13 +17,13 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'TConfig'
+project = "TConfig"
 # noinspection PyShadowingBuiltins
-copyright = '2020, Alan Williams'
-author = 'Alan Williams'
+copyright = "2020, Alan Williams"
+author = "Alan Williams"
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.0'
+release = "0.1.0"
 
 # -- General configuration ---------------------------------------------------
 
@@ -31,27 +31,26 @@ release = '0.1.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.coverage',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.autodoc',
+    "sphinx.ext.autodoc",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.coverage",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.autodoc",
 ]
 
 autoclass_content = "both"
 
 autodoc_default_options = {
-    'members': True,
+    "members": True,
     # 'undoc-members': True,
-    'private-members': True,
-    'inherited-members': True,
-    'show-inheritance': True,
+    "private-members": True,
+    "inherited-members": True,
+    "show-inheritance": True,
     # 'special-members': True,
-    'member-order': 'bysource'
-
+    "member-order": "bysource",
 }
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -61,13 +60,13 @@ exclude_patterns = []
 
 # noinspection PyUnusedLocal
 def skip(app, what, name, obj, would_skip, options):
-    if name in ['__init__']:
+    if name in ["__init__"]:
         return False
     return would_skip
 
 
 def setup(app):
-    app.connect('autodoc-skip-member', skip)
+    app.connect("autodoc-skip-member", skip)
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -75,13 +74,13 @@ def setup(app):
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
+html_theme = "sphinx_rtd_theme"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
 intersphinx_mapping = {
-    'https://docs.python.org/3': None,
+    "https://docs.python.org/3": None,
 }
