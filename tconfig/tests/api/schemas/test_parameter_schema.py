@@ -61,18 +61,18 @@ def test_schema_serialize(pz_four_values):
     parm_schema = ParameterSchema()
     p_dict = parm_schema.dump(pz_four_values)
     expected = {
-        'excluded': [],
-        'excluded_by': [],
-        'name': 'Z',
-        'parameter_set': None,
-        'position': None,
-        'uid': 1,
-        'values': [
-            {'name': 'V1', 'parameter': 1, 'position': 0, 'uid': 1},
-            {'name': 'V2', 'parameter': 1, 'position': 1, 'uid': 2},
-            {'name': 'V3', 'parameter': 1, 'position': 2, 'uid': 3},
-            {'name': 'V4', 'parameter': 1, 'position': 3, 'uid': 4}
-        ]
+        "excluded": [],
+        "excluded_by": [],
+        "name": "Z",
+        "parameter_set": None,
+        "position": None,
+        "uid": 1,
+        "values": [
+            {"name": "V1", "parameter": 1, "position": 0, "uid": 1},
+            {"name": "V2", "parameter": 1, "position": 1, "uid": 2},
+            {"name": "V3", "parameter": 1, "position": 2, "uid": 3},
+            {"name": "V4", "parameter": 1, "position": 3, "uid": 4},
+        ],
     }
     assert p_dict == expected
 
@@ -80,18 +80,18 @@ def test_schema_serialize(pz_four_values):
 def test_schema_deserialize(orm, pz_four_values):
     parm_schema = ParameterSchema()
     p_dict = {
-        'excluded': [],
-        'excluded_by': [],
-        'name': 'Z',
-        'parameter_set': None,
-        'position': None,
-        'uid': 1,
-        'values': [
-            {'name': 'V1', 'parameter': 1, 'position': 0, 'uid': 1},
-            {'name': 'V2', 'parameter': 1, 'position': 1, 'uid': 2},
-            {'name': 'V3', 'parameter': 1, 'position': 2, 'uid': 3},
-            {'name': 'V4', 'parameter': 1, 'position': 3, 'uid': 4}
-        ]
+        "excluded": [],
+        "excluded_by": [],
+        "name": "Z",
+        "parameter_set": None,
+        "position": None,
+        "uid": 1,
+        "values": [
+            {"name": "V1", "parameter": 1, "position": 0, "uid": 1},
+            {"name": "V2", "parameter": 1, "position": 1, "uid": 2},
+            {"name": "V3", "parameter": 1, "position": 2, "uid": 3},
+            {"name": "V4", "parameter": 1, "position": 3, "uid": 4},
+        ],
     }
     p_loaded = parm_schema.load(p_dict, session=orm.session)
     assert p_loaded == pz_four_values

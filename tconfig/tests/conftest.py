@@ -9,9 +9,10 @@ API_PREFIX = "/tconfig/api/v1"
 
 # pylint: disable=redefined-outer-name
 
+
 @pytest.fixture
 def app():
-    app_fixture = create_app('testing')
+    app_fixture = create_app("testing")
     app_context = app_fixture.app_context()
     app_context.push()
     ORM.drop_all()
@@ -39,7 +40,7 @@ def api_prefix(app):
 
 @pytest.fixture
 def api_client(client, api_prefix):
-    setup_response = client.get(f'{api_prefix}/setup')
+    setup_response = client.get(f"{api_prefix}/setup")
     if not setup_response.status_code == 200:
         raise RuntimeError(f"Setup route returned code {setup_response.status_code}")
     return client

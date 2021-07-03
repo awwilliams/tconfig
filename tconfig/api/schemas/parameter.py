@@ -17,9 +17,11 @@ class ParameterSchema(ma_sq.SQLAlchemySchema):
         sqla_session = orm_utils.orm_session()
 
     uid = fields.Integer()
-    name = fields.String(required=True, allow_none=False, validate=validate.Length(min=1))
+    name = fields.String(
+        required=True, allow_none=False, validate=validate.Length(min=1)
+    )
     values = fields.Nested(ValueSchema, many=True)
-    parameter_set = fields.Pluck('ParameterSetSchema', 'uid', allow_none=True)
+    parameter_set = fields.Pluck("ParameterSetSchema", "uid", allow_none=True)
     position = fields.Integer(allow_none=True)
     excluded = fields.Pluck("ParameterSchema", "uid", many=True)
     excluded_by = fields.Pluck("ParameterSchema", "uid", many=True)
@@ -31,7 +33,7 @@ class UpdateNestedParameterSchema(Schema):
     # noinspection PyUnusedLocal
     @post_load()
     def get_parameter(self, item, many, **kwargs):
-        parameter = ParameterDao.query.get(item['uid'])  # @UndefinedVariable
+        parameter = ParameterDao.query.get(item["uid"])  # @UndefinedVariable
         if parameter is None:
             message = f"No parameter with uid={item['uid']} was found"
             raise ValidationError(message)
@@ -40,18 +42,20 @@ class UpdateNestedParameterSchema(Schema):
 
 class NewParameterSchema(Schema):
     uid = fields.Integer(load_only=True)
-    name = fields.String(required=True, allow_none=False, validate=validate.Length(min=1))
+    name = fields.String(
+        required=True, allow_none=False, validate=validate.Length(min=1)
+    )
     values = fields.List(fields.String(validate=validate.Length(min=1)))
-    parameter_set = fields.Pluck('ParameterSetSchema', 'uid', allow_none=True)
+    parameter_set = fields.Pluck("ParameterSetSchema", "uid", allow_none=True)
     position = fields.Integer(load_only=True)
     excluded = fields.Pluck("ParameterSchema", "uid", many=True)
     excluded_by = fields.Pluck("ParameterSchema", "uid", many=True)
 
-    @validates('uid')
+    @validates("uid")
     def validate_uid(self, data, **kwargs):
         raise ValidationError("Cannot modify read-only field")
 
-    @validates('position')
+    @validates("position")
     def validate_position(self, data, **kwargs):
         raise ValidationError("Cannot modify read-only field")
 
@@ -61,18 +65,20 @@ MoveParameterSchema = MoveSchema
 
 class UpdateParameterSchema(Schema):
     uid = fields.Integer(load_only=True)
-    name = fields.String(required=True, allow_none=False, validate=validate.Length(min=1))
-    values = fields.Nested('ValueSchema', many=True)
-    parameter_set = fields.Pluck('ParameterSetSchema', 'uid', allow_none=True)
+    name = fields.String(
+        required=True, allow_none=False, validate=validate.Length(min=1)
+    )
+    values = fields.Nested("ValueSchema", many=True)
+    parameter_set = fields.Pluck("ParameterSetSchema", "uid", allow_none=True)
     position = fields.Integer(load_only=True)
     excluded = fields.Pluck("ParameterSchema", "uid", many=True)
     excluded_by = fields.Pluck("ParameterSchema", "uid", many=True)
 
-    @validates('uid')
+    @validates("uid")
     def validate_uid(self, data, **kwargs):
         raise ValidationError("Cannot modify read-only field")
 
-    @validates('position')
+    @validates("position")
     def validate_position(self, data, **kwargs):
         raise ValidationError("Cannot modify read-only field")
 
@@ -87,5 +93,9 @@ class ParameterExclusionSchema(ma_sq.SQLAlchemySchema):
 
     uid = fields.Integer()
     name = fields.String(required=True)
-    excluded = fields.Nested(ParameterSchema(only=("name", "uid")), many=True, dump_only=True)
-    excluded_by = fields.Nested(ParameterSchema(only=("name", "uid")), many=True, dump_only=True)
+    excluded = fields.Nested(
+        ParameterSchema(only=("name", "uid")), many=True, dump_only=True
+    )
+    excluded_by = fields.Nested(
+        ParameterSchema(only=("name", "uid")), many=True, dump_only=True
+    )

@@ -6,7 +6,10 @@ Created on Jun. 14, 2020
 import re
 import pytest
 
-from tconfig.core.algorithms.recursive.utils import is_prime_power, find_next_prime_power
+from tconfig.core.algorithms.recursive.utils import (
+    is_prime_power,
+    find_next_prime_power,
+)
 
 
 def test_is_prime_power_small_prime():
@@ -26,10 +29,14 @@ def test_is_prime_power_bigger_prime():
 
 def test_is_prime_power_really_big_prime():
     value = 11113
-    error_message = re.escape(" ".join([
-        "is_prime_power() cannot handle the value 11113",
-        "which is greater or equal to maximum value 10609"
-    ]))
+    error_message = re.escape(
+        " ".join(
+            [
+                "is_prime_power() cannot handle the value 11113",
+                "which is greater or equal to maximum value 10609",
+            ]
+        )
+    )
     with pytest.raises(ValueError, match=error_message):
         is_prime_power(value)
 

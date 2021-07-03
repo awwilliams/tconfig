@@ -15,6 +15,7 @@ from . import test_utils
 
 # pylint: disable=invalid-name, redefined-outer-name, too-many-arguments, too-many-locals
 
+
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def a1():
@@ -144,13 +145,17 @@ def parmset_abc(parm_a, parm_b, parm_c):
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parmset_abcd(parm_a, parm_b, parm_c, parm_d):
-    return test_utils.create_test_parameter_set(parameters=[parm_a, parm_b, parm_c, parm_d])
+    return test_utils.create_test_parameter_set(
+        parameters=[parm_a, parm_b, parm_c, parm_d]
+    )
 
 
 @pytest.mark.usefixtures("orm")
 @pytest.fixture
 def parmset_abcde(parm_a, parm_b, parm_c, parm_d, parm_e):
-    return test_utils.create_test_parameter_set(parameters=[parm_a, parm_b, parm_c, parm_d, parm_e])
+    return test_utils.create_test_parameter_set(
+        parameters=[parm_a, parm_b, parm_c, parm_d, parm_e]
+    )
 
 
 def test_parmset_jsonify():
@@ -168,9 +173,11 @@ def test_init_default():
 
 
 def test_init_one_parm():
-    p = ParameterDao.create_with_unnamed_values('Z', 4)
+    p = ParameterDao.create_with_unnamed_values("Z", 4)
 
-    plist = [p, ]
+    plist = [
+        p,
+    ]
     ps = ParameterSetDao(plist)
 
     assert ps.parameters == plist
@@ -366,15 +373,20 @@ def test_clear(parmset_abcde):
 
 
 @pytest.mark.usefixtures("orm")
-def test_to_dataframe(parmset_abcde, a1, a2, a3, b1, b2, b3, c1, c2, c3, d1, d2, d3, d4, e1, e2):
+def test_to_dataframe(
+    parmset_abcde, a1, a2, a3, b1, b2, b3, c1, c2, c3, d1, d2, d3, d4, e1, e2
+):
     df = parmset_abcde.to_dataframe()
 
-    expected_df = pd.DataFrame([
-        [a1, b1, c1, d1, e1],
-        [a2, b2, c2, d2, e2],
-        [a3, b3, c3, d3, np.NaN],
-        [np.NaN, np.NaN, np.NaN, d4, np.NaN]
-    ], columns=["A", "B", "C", "D", "E"])
+    expected_df = pd.DataFrame(
+        [
+            [a1, b1, c1, d1, e1],
+            [a2, b2, c2, d2, e2],
+            [a3, b3, c3, d3, np.NaN],
+            [np.NaN, np.NaN, np.NaN, d4, np.NaN],
+        ],
+        columns=["A", "B", "C", "D", "E"],
+    )
 
     assert df.equals(expected_df)
 

@@ -9,12 +9,11 @@ from typing import Dict, Optional, Union, TypeVar
 
 # pylint: disable=unsubscriptable-object
 
-T = TypeVar('T')
+T = TypeVar("T")
 UidType = Optional[Union[UUID, str, int]]
 
 
 class JsonSerializable(object):
-
     def __init__(self, uid: UidType = None):
         """
         Assign a unique identifier to the instance.
@@ -34,15 +33,13 @@ class JsonSerializable(object):
 
     def __repr(self):
         return f"JsonSerializable(uid={self.uid})"
-    
+
     def to_dict(self) -> Dict:
         """
         Returns a representation of the instance as a dictionary with
         values that are numeric / booleans / strings / lists.
         """
-        return {
-            "uid": str(self.uid) if isinstance(self.uid, UUID) else self.uid
-        }
+        return {"uid": str(self.uid) if isinstance(self.uid, UUID) else self.uid}
 
     def to_json(self) -> str:
         """

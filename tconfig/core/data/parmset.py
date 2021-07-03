@@ -9,11 +9,13 @@ from .parameter import Parameter
 
 # pylint: disable=unsubscriptable-object
 
+
 class ParameterSet(JsonSerializable):
     parameter_class = Parameter
 
-    def __init__(self, parameters: Optional[List[Parameter]] = None,
-                 uid: UidType = None):
+    def __init__(
+        self, parameters: Optional[List[Parameter]] = None, uid: UidType = None
+    ):
         super().__init__(uid=uid)
         self.parameters = [] if parameters is None else list(parameters)
 
@@ -36,30 +38,37 @@ class ParameterSet(JsonSerializable):
         if not isinstance(other, ParameterSet):
             return False
         return all(
-            s == o for (s, o) in itertools.zip_longest(
-                self.parameters, other.parameters))
+            s == o
+            for (s, o) in itertools.zip_longest(self.parameters, other.parameters)
+        )
 
     def __hash__(self) -> int:
-        return hash((getattr(self, 'uid'), self.parameters))
+        return hash((getattr(self, "uid"), self.parameters))
 
     def __repr__(self) -> str:
         return f"ParameterSet: parameters={self.parameters}"
 
     @classmethod
     def create_from_parm_and_value_sizes(
-            cls, num_parms: int, num_values: int) -> "ParameterSet":
-        return cls([
-            cls.parameter_class.create_with_unnamed_values(str(index), num_values)
-            for index in range(1, num_parms + 1)
-        ])
+        cls, num_parms: int, num_values: int
+    ) -> "ParameterSet":
+        return cls(
+            [
+                cls.parameter_class.create_with_unnamed_values(str(index), num_values)
+                for index in range(1, num_parms + 1)
+            ]
+        )
 
     @classmethod
-    def create_from_value_sizes(
-            cls, value_size_list: List[int]) -> "ParameterSet":
-        return cls([
-            cls.parameter_class.create_with_unnamed_values(str(index + 1), value_size)
-            for index, value_size in enumerate(value_size_list)
-        ])
+    def create_from_value_sizes(cls, value_size_list: List[int]) -> "ParameterSet":
+        return cls(
+            [
+                cls.parameter_class.create_with_unnamed_values(
+                    str(index + 1), value_size
+                )
+                for index, value_size in enumerate(value_size_list)
+            ]
+        )
 
     def to_dataframe(self) -> pd.DataFrame:
         return pd.concat([p.to_series() for p in self], axis=1)
@@ -85,8 +94,9 @@ class ParameterSet(JsonSerializable):
     def index(self, *args) -> int:
         return self.parameters.index(*args)
 
-    def set_adjacent(self, parm_1: Parameter, parm_2: Parameter,
-                     adjacent: bool) -> None:
+    def set_adjacent(
+        self, parm_1: Parameter, parm_2: Parameter, adjacent: bool
+    ) -> None:
         if adjacent:
             parm_1.restore_interaction_with(parm_2)
         else:
@@ -97,15 +107,18 @@ class ParameterSet(JsonSerializable):
 
     def to_dict(self):
         result = super().to_dict()
-        result.update({
-            "parameters": [p.to_dict() for p in self.parameters],
-        })
+        result.update(
+            {
+                "parameters": [p.to_dict() for p in self.parameters],
+            }
+        )
         return result
 
     @classmethod
     def from_dict(cls, cls_dict):
-        parameters = [cls.parameter_class.from_dict(p_dict)
-                      for p_dict in cls_dict["parameters"]]
+        parameters = [
+            cls.parameter_class.from_dict(p_dict) for p_dict in cls_dict["parameters"]
+        ]
         uid = cls_dict["uid"]
         return cls(parameters, uid=uid)
 

@@ -12,7 +12,6 @@ from tconfig.core.algorithms.recursive import utils
 
 
 class LatinSquares(object):
-
     def __init__(self, square_size: int, dtype=DEFAULT_NDARRAY_TYPE):
         num_squares = 1
         if utils.is_prime_power(square_size) != 0:
@@ -29,7 +28,7 @@ class LatinSquares(object):
     def __str__(self) -> str:
         return str(self.squares)
 
-    def __eq__(self, other: 'LatinSquares') -> bool:
+    def __eq__(self, other: "LatinSquares") -> bool:
         return np.array_equal(self.squares, other.squares)
 
     def __hash__(self) -> int:
@@ -44,9 +43,13 @@ class LatinSquares(object):
                 row_result = field[square_num + 1] * field[row_index]
                 for col_index in range(0, square_size):
                     end_result = row_result + field[col_index]
-                    self.squares[square_num][row_index][col_index] = end_result.enumerate()
+                    self.squares[square_num][row_index][
+                        col_index
+                    ] = end_result.enumerate()
 
     def generate_single_square(self, square_size: int):
         for row_index in range(0, square_size):
             for col_index in range(0, square_size):
-                self.squares[0][row_index][col_index] = (row_index + col_index) % square_size
+                self.squares[0][row_index][col_index] = (
+                    row_index + col_index
+                ) % square_size

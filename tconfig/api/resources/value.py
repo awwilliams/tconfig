@@ -16,12 +16,12 @@ class ValueResource(Resource):
     def get(self, uid):
         value = orm_utils.get_or_404_value_with_uid(uid)
         value_info = VALUE_SCHEMA.dump(value)
-        puid = value_info['parameter']
+        puid = value_info["parameter"]
         response_content = {
-            'message': 'value found',
+            "message": "value found",
             "value": value_info,
-            "value_url": url_for('.value', uid=uid),
-            "parameter_url": url_for('.parameter', uid=puid),
+            "value_url": url_for(".value", uid=uid),
+            "parameter_url": url_for(".parameter", uid=puid),
         }
         return response_content
 
@@ -40,12 +40,12 @@ class ValueResource(Resource):
             setattr(value, key, new_value)
         resource_utils.perform_orm_commit_or_500(value, operation="update")
         value_info = VALUE_SCHEMA.dump(value)
-        puid = value_info['parameter']
+        puid = value_info["parameter"]
         response_content = {
-            'message': 'value updated',
+            "message": "value updated",
             "value": value_info,
-            "value_url": url_for('.value', uid=uid),
-            "parameter_url": url_for('.parameter', uid=puid),
+            "value_url": url_for(".value", uid=uid),
+            "parameter_url": url_for(".parameter", uid=puid),
         }
         return response_content
 
@@ -55,8 +55,8 @@ class ValueResource(Resource):
         puid = value.parameter.uid
         resource_utils.perform_orm_commit_or_500(value, "delete")
         response_content = {
-            'message': f'value {uid} deleted',
-            'deleted_value': deleted_value,
-            "parameter_url": url_for('.parameter', uid=puid),
+            "message": f"value {uid} deleted",
+            "deleted_value": deleted_value,
+            "parameter_url": url_for(".parameter", uid=puid),
         }
         return response_content

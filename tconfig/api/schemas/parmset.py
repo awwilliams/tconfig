@@ -22,9 +22,11 @@ class ParameterSetSchema(ma_sq.SQLAlchemyAutoSchema):
 
 class UpdateParameterSetSchema(Schema):
     uid = fields.Integer(load_only=True)
-    name = fields.String(required=True, allow_none=False, validate=validate.Length(min=1))
-    parameters = fields.Nested('ParameterSchema', many=True)
+    name = fields.String(
+        required=True, allow_none=False, validate=validate.Length(min=1)
+    )
+    parameters = fields.Nested("ParameterSchema", many=True)
 
-    @validates('uid')
+    @validates("uid")
     def validate_uid(self, data, **kwargs):
         raise ValidationError("Cannot modify read-only field")

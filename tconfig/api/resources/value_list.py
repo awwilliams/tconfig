@@ -17,7 +17,7 @@ class ValueListResource(Resource):
         value_list = orm_utils.get_value_list()
         response_content = {
             "value_list": [VALUE_SCHEMA.dump(value) for value in value_list],
-            "value_List_url": url_for('.value_list'),
+            "value_List_url": url_for(".value_list"),
         }
         return response_content
 
@@ -34,9 +34,9 @@ class ValueListResource(Resource):
         resource_utils.perform_orm_commit_or_500(new_value)
         new_id = new_value.uid
         response_content = {
-            'message': 'new value created',
-            'new_value': VALUE_SCHEMA.dump(new_value),
-            'new_value_url': url_for('.value', uid=new_id),
-            "value_List_url": url_for('.value_list'),
+            "message": "new value created",
+            "new_value": VALUE_SCHEMA.dump(new_value),
+            "new_value_url": url_for(".value", uid=new_id),
+            "value_List_url": url_for(".value_list"),
         }
         return response_content, 201

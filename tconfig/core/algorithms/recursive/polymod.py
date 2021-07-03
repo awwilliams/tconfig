@@ -11,7 +11,6 @@ from tconfig.core.algorithms.recursive.intmod import IntMod
 
 
 class PolyMod(object):
-
     def __init__(self, coef_list: Optional[Iterable[IntMod]] = None):
         self.coef_list = [] if coef_list is None else list(coef_list)
 
@@ -25,12 +24,14 @@ class PolyMod(object):
         content = []
         for index, coef in reversed(list(enumerate(self))):
             if coef != zero:
-                content.append("{}{}{}".format(
-                    str(coef) if coef != one or index == 0 else '',
-                    'x' if index >= 1 else '',
-                    f'^{index}' if index >= 2 else ''
-                ))
-        return ' + '.join(content)
+                content.append(
+                    "{}{}{}".format(
+                        str(coef) if coef != one or index == 0 else "",
+                        "x" if index >= 1 else "",
+                        f"^{index}" if index >= 2 else "",
+                    )
+                )
+        return " + ".join(content)
 
     def __repr__(self) -> str:
         return f"PolyMod(coef_list={self.coef_list})"
@@ -50,7 +51,7 @@ class PolyMod(object):
     def __delitem__(self, key: int):
         self.coef_list.pop(key)
 
-    def __eq__(self, other: 'PolyMod') -> bool:
+    def __eq__(self, other: "PolyMod") -> bool:
         return all(s == o for (s, o) in itertools.zip_longest(self, other))
 
     def __hash__(self) -> int:

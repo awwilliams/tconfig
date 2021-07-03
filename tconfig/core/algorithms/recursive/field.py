@@ -28,14 +28,12 @@ def _find_irreducible_poly(degree: int) -> PolyMod:
         while result[index] == zero:
             index += 1
             if index > degree:
-                raise ArithmeticError(
-                    f"No irreducible polynomial of degree {degree}")
+                raise ArithmeticError(f"No irreducible polynomial of degree {degree}")
             result[index] += 1
     return result
 
 
 class Field(object):
-
     def __init__(self, order: int = 0):
         self.elements = []
         self.order = order
@@ -63,8 +61,10 @@ class Field(object):
     def __delitem__(self, key: int):
         self.elements.pop(key)
 
-    def __eq__(self, other: 'Field') -> bool:
-        return all(s == o for (s, o) in itertools.zip_longest(self.elements, other.elements))
+    def __eq__(self, other: "Field") -> bool:
+        return all(
+            s == o for (s, o) in itertools.zip_longest(self.elements, other.elements)
+        )
 
     def __hash__(self) -> int:
         return hash(self.elements)
@@ -161,5 +161,4 @@ class Field(object):
                 self.elements.append(next_element)
         else:
             # order is invalid
-            raise ArithmeticError(
-                f"Field order {order} is not a prime power")
+            raise ArithmeticError(f"Field order {order} is not a prime power")

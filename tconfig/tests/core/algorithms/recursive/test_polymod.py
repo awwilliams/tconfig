@@ -18,7 +18,7 @@ def test_create():
 
     assert p.coef_list == []
 
-    with pytest.raises(ValueError, match='Degree of null polynomial undefined.'):
+    with pytest.raises(ValueError, match="Degree of null polynomial undefined."):
         # noinspection PyStatementEffect
         p.degree  # pylint: disable=pointless-statement
 
@@ -83,20 +83,21 @@ def test_str_one_handling():
 
 def test_collapse_degree():
     IntMod.modulus = 5
-    p = PolyMod([IntMod(0), IntMod(0), IntMod(
-        0), IntMod(2), IntMod(1), IntMod(0), IntMod(0)])
+    p = PolyMod(
+        [IntMod(0), IntMod(0), IntMod(0), IntMod(2), IntMod(1), IntMod(0), IntMod(0)]
+    )
     p.collapse_degree()
 
-    expected_p = PolyMod(
-        [IntMod(0), IntMod(0), IntMod(0), IntMod(2), IntMod(1)])
+    expected_p = PolyMod([IntMod(0), IntMod(0), IntMod(0), IntMod(2), IntMod(1)])
 
     assert p == expected_p
 
 
 def test_collapse_degree_all_zeros():
     IntMod.modulus = 5
-    p = PolyMod([IntMod(0), IntMod(0), IntMod(
-        0), IntMod(0), IntMod(0), IntMod(0), IntMod(0)])
+    p = PolyMod(
+        [IntMod(0), IntMod(0), IntMod(0), IntMod(0), IntMod(0), IntMod(0), IntMod(0)]
+    )
     p.collapse_degree()
 
     expected_p = PolyMod([IntMod(0)])
@@ -106,8 +107,9 @@ def test_collapse_degree_all_zeros():
 
 def test_collapse_to_one_poly():
     IntMod.modulus = 5
-    p = PolyMod([IntMod(1), IntMod(0), IntMod(
-        0), IntMod(0), IntMod(0), IntMod(0), IntMod(0)])
+    p = PolyMod(
+        [IntMod(1), IntMod(0), IntMod(0), IntMod(0), IntMod(0), IntMod(0), IntMod(0)]
+    )
     p.collapse_degree()
 
     expected_p = PolyMod([IntMod(1)])

@@ -18,8 +18,8 @@ class ParameterSetResource(Resource):
         parameter_set = orm_utils.get_or_404_parameter_set()
         response_content = {
             "parameter_set": PARAMETER_SET_SCHEMA.dump(parameter_set),
-            "parameter_set_url": url_for('.parameter_set'),
-            "parameter_list_url": url_for('.parameter_list'),
+            "parameter_set_url": url_for(".parameter_set"),
+            "parameter_list_url": url_for(".parameter_list"),
         }
         return response_content, 200, {"Access-Control-Allow-Origin": "*"}
 
@@ -30,19 +30,23 @@ class ParameterSetResource(Resource):
         if not patch_data:
             abort(400, "No updates provided with request")
         edit_parameter_set_info.update(patch_data)
-        validation_errors = UPDATE_PARAMETER_SET_SCHEMA.validate(edit_parameter_set_info)
+        validation_errors = UPDATE_PARAMETER_SET_SCHEMA.validate(
+            edit_parameter_set_info
+        )
         if validation_errors:
             abort(400, f"Validation error(s):  {validation_errors}")
         for key in patch_data:
-            new_value = PARAMETER_SET_SCHEMA.fields[key].deserialize(edit_parameter_set_info[key])
+            new_value = PARAMETER_SET_SCHEMA.fields[key].deserialize(
+                edit_parameter_set_info[key]
+            )
             setattr(parameter_set, key, new_value)
         resource_utils.perform_orm_commit_or_500(parameter_set, operation="update")
         parameter_set_info = PARAMETER_SET_SCHEMA.dump(parameter_set)
         response_content = {
-            'message': 'parameter set updated',
+            "message": "parameter set updated",
             "parameter_set": parameter_set_info,
-            "parameter_set_url": url_for('.parameter_set'),
-            "parameter_list_url": url_for('.parameter_list'),
+            "parameter_set_url": url_for(".parameter_set"),
+            "parameter_list_url": url_for(".parameter_list"),
         }
         return response_content
 
@@ -50,6 +54,6 @@ class ParameterSetResource(Resource):
         parameter = orm_utils.get_or_404_parameter_with_uid(1)
         resource_utils.perform_orm_commit_or_500(parameter, "delete")
         response_content = {
-            'message': 'parameter set deleted',
+            "message": "parameter set deleted",
         }
         return response_content
